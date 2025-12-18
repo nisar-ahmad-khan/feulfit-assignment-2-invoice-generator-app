@@ -1,24 +1,17 @@
-# README
+Features
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+User authentication and management with Devise
 
-Things you may want to cover:
+Role-based authorization using Pundit
 
-* Ruby version
+Add, edit, and manage Clients and Products
 
-* System dependencies
+Create invoices with nested line items
 
-* Configuration
+Automatic calculation of line item totals, subtotal, tax, discount, and grand total
 
-* Database creation
+Generate PDF invoices using Wicked PDF
 
-* Database initialization
+Responsive design with Tailwind CSS
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Simple admin panel functionality 
