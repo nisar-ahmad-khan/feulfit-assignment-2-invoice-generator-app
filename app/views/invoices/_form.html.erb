@@ -1,0 +1,76 @@
+<%= form_with model: @invoice, class: "space-y-10" do |f| %>
+
+  <!-- Client Section -->
+  <section class="bg-white shadow-md rounded-xl p-6">
+    <h3 class="text-lg font-semibold text-gray-800 mb-4">Client</h3>
+    <%= f.collection_select :client_id, Client.all, :id, :name,
+          { prompt: "Select a Client" },
+          class: "w-full border-2 rounded-md px-3 py-2 focus:ring-indigo-500 focus:border-indigo-500" %>
+  </section>
+
+  <!-- Invoice Info Section -->
+  <section class="bg-white shadow-md rounded-xl p-6">
+    <h3 class="text-lg font-semibold text-gray-800 mb-4">Invoice Info</h3>
+    <div class="space-y-4">
+      <div>
+        <%= f.label :issue_date, class: "block text-gray-700 mb-1" %>
+        <%= f.date_field :issue_date, class: "w-full border-2 rounded-md px-3 py-2" %>
+      </div>
+      <div>
+        <%= f.label :due_date, class: "block text-gray-700 mb-1" %>
+        <%= f.date_field :due_date, class: "w-full border-2 rounded-md px-3 py-2" %>
+      </div>
+      <div>
+        <%= f.label :status, class: "block text-gray-700 mb-1" %>
+        <%= f.select :status, ["Draft", "Sent", "Paid"], {}, class: "w-full border-2 rounded-md px-3 py-2" %>
+      </div>
+    </div>
+  </section>
+
+  <!-- Line Items Section -->
+  <section class="bg-white shadow-md rounded-xl p-6">
+    <h3 class="text-lg font-semibold text-gray-800 mb-4">Line Items</h3>
+    <%= f.fields_for :line_items do |li| %>
+      <div class="mb-4 border-2 rounded-md p-4 space-y-2">
+        <div>
+          <%= li.label :product_id, "Product", class: "block text-gray-700 mb-1" %>
+          <%= li.collection_select :product_id, Product.all, :id, :name,
+                { prompt: "Select a Product" },
+                class: "w-full border-2 rounded-md px-2 py-1 focus:ring-indigo-500 focus:border-indigo-500" %>
+        </div>
+        <div>
+          <%= li.label :quantity, class: "block text-gray-700 mb-1" %>
+          <%= li.number_field :quantity, class: "w-full border-2 rounded-md px-2 py-1" %>
+        </div>
+        <div>
+          <%= li.label :unit_price, class: "block text-gray-700 mb-1" %>
+          <%= li.number_field :unit_price, step: 0.01, class: "w-full border-2 rounded-md px-2 py-1" %>
+        </div>
+        <div>
+          <%= li.check_box :_destroy %> <%= li.label :_destroy, "Remove" %>
+        </div>
+      </div>
+    <% end %>
+  </section>
+
+  <!-- Adjustments Section -->
+  <section class="bg-white shadow-md rounded-xl p-6">
+    <h3 class="text-lg font-semibold text-gray-800 mb-4">Adjustments</h3>
+    <div class="space-y-4">
+      <div>
+        <%= f.label :tax, class: "block text-gray-700 mb-1" %>
+        <%= f.number_field :tax, step: 0.01, class: "w-full border-2 rounded-md px-3 py-2" %>
+      </div>
+      <div>
+        <%= f.label :discount, class: "block text-gray-700 mb-1" %>
+        <%= f.number_field :discount, step: 0.01, class: "w-full border-2 rounded-md px-3 py-2" %>
+      </div>
+    </div>
+  </section>
+
+  <div>
+    <%= f.submit "Create Invoice",
+          class: "w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2.5 rounded-md transition duration-200" %>
+  </div>
+
+<% end %>

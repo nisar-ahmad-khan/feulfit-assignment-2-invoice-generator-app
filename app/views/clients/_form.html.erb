@@ -1,0 +1,33 @@
+<%= form_with(model: client, local: true, class: "bg-white shadow-md rounded-lg p-6 space-y-4") do |form| %>
+  <% if client.errors.any? %>
+    <div class="bg-red-100 text-red-800 p-4 rounded">
+      <h2 class="font-semibold mb-2">
+        <%= pluralize(client.errors.count, "error") %> prohibited this client from being saved:
+      </h2>
+      <ul class="list-disc list-inside">
+        <% client.errors.full_messages.each do |error| %>
+          <li><%= error %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :name, class: "block text-gray-700 font-semibold mb-1" %>
+    <%= form.text_field :name, class: "w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400" %>
+  </div>
+
+  <div>
+    <%= form.label :email, class: "block text-gray-700 font-semibold mb-1" %>
+    <%= form.text_field :email, class: "w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400" %>
+  </div>
+
+  <div>
+    <%= form.label :address, class: "block text-gray-700 font-semibold mb-1" %>
+    <%= form.text_area :address, rows: 3, class: "w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400" %>
+  </div>
+
+  <div>
+    <%= form.submit "Save Client", class: "bg-blue-500 text-white font-semibold px-4 py-2 rounded hover:bg-blue-600 transition-colors" %>
+  </div>
+<% end %>

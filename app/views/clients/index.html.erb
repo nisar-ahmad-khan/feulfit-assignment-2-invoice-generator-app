@@ -1,0 +1,38 @@
+<% if notice %>
+  <p class="bg-green-100 text-green-800 px-4 py-2 rounded mb-4"><%= notice %></p>
+<% end %>
+
+<% content_for :title, "Clients" %>
+
+<h1 class="text-3xl font-bold text-gray-800 mb-6">Clients</h1>
+
+<div id="clients" class="space-y-4">
+  <% @clients.each do |client| %>
+    <div class="bg-white shadow-md rounded-lg p-6 border border-gray-200">
+      <div class="mb-2">
+        <strong class="text-gray-700 font-semibold">Name:</strong>
+        <span class="text-gray-900"><%= client.name %></span>
+      </div>
+
+      <div class="mb-2">
+        <strong class="text-gray-700 font-semibold">Email:</strong>
+        <span class="text-gray-900"><%= client.email %></span>
+      </div>
+
+      <div class="mb-4">
+        <strong class="text-gray-700 font-semibold">Address:</strong>
+        <span class="text-gray-900"><%= client.address %></span>
+      </div>
+
+      <div class="flex space-x-4">
+        <%= link_to "Show this client", client, class: "text-blue-500 hover:underline" %>
+        <%= link_to "Edit", edit_client_path(client), class: "text-blue-500 hover:underline" %>
+        <%= button_to "Destroy", client, method: :delete, data: { confirm: "Are you sure?" }, class: "text-red-500 hover:underline bg-transparent border-0 p-0" %>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<div class="mt-6">
+  <%= link_to "New client", new_client_path, class: "bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors" %>
+</div>

@@ -1,0 +1,92 @@
+<h2 class="text-2xl font-bold text-indigo-600 mb-6">New Invoice</h2>
+
+<%= form_with(model: @invoice, local: true, class: "space-y-6") do |f| %>
+  <% if @invoice.errors.any? %>
+    <div class="bg-red-100 text-red-700 p-4 rounded">
+      <h3 class="font-semibold"><%= pluralize(@invoice.errors.count, "error") %> prohibited this invoice from being saved:</h3>
+      <ul class="list-disc ml-5 mt-2">
+        <% @invoice.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <!-- Client Selection -->
+  <div>
+    <%= f.label :client_id, "Client", class: "block text-sm font-medium text-gray-700 mb-1" %>
+    <%= f.collection_select :client_id, Client.all, :id, :name,
+          { prompt: "Select Client" },
+          class: "w-full border-2 rounded-md border-gray-300 px-3 py-2 focus:border-indigo-500 focus:ring-indigo-500" %>
+  </div>
+
+  <!-- Invoice Info -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div>
+      <%= f.label :issue_date, class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= f.date_field :issue_date,
+            class: "w-full border-2 rounded-md border-gray-300 px-3 py-2 focus:border-indigo-500 focus:ring-indigo-500" %>
+    </div>
+    <div>
+      <%= f.label :due_date, class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= f.date_field :due_date,
+            class: "w-full border-2 rounded-md border-gray-300 px-3 py-2 focus:border-indigo-500 focus:ring-indigo-500" %>
+    </div>
+    <div>
+      <%= f.label :status, class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= f.select :status, ["Draft", "Sent", "Paid"],
+            {}, class: "w-full border-2 rounded-md border-gray-300 px-3 py-2 focus:border-indigo-500 focus:ring-indigo-500" %>
+    </div>
+  </div>
+
+  <!-- Line Items -->
+  <h3 class="text-lg font-semibold text-gray-800 mt-4">Line Items</h3>
+
+  <div id="line_items">
+    <%= f.fields_for :line_items do |li| %>
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4 items-end border-b pb-4">
+        <div>
+          <%= li.label :product_id, "Product", class: "block text-sm text-gray-700 mb-1" %>
+          <%= li.collection_select :product_id, Product.all, :id, :name,
+                { prompt: "Select" },
+                class: "w-full border-2 rounded-md border-gray-300 px-2 py-1 focus:border-indigo-500 focus:ring-indigo-500" %>
+        </div>
+        <div>
+          <%= li.label :quantity, class: "block text-sm text-gray-700 mb-1" %>
+          <%= li.number_field :quantity, min: 1, class: "w-full border-2 rounded-md border-gray-300 px-2 py-1 focus:border-indigo-500 focus:ring-indigo-500" %>
+        </div>
+        <div>
+          <%= li.label :unit_price, class: "block text-sm text-gray-700 mb-1" %>
+          <%= li.number_field :unit_price, step: 0.01,
+                class: "w-full border-2 rounded-md border-gray-300 px-2 py-1 focus:border-indigo-500 focus:ring-indigo-500" %>
+        </div>
+        <div class="flex items-center space-x-2">
+          <%= li.check_box :_destroy, class: "mt-6" %>
+          <span class="text-sm text-gray-600">Remove</span>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- Adjustments -->
+  <h3 class="text-lg font-semibold text-gray-800 mt-4">Adjustments</h3>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div>
+      <%= f.label :tax, class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= f.number_field :tax, step: 0.01,
+            class: "w-full border-2 rounded-md border-gray-300 px-3 py-2 focus:border-indigo-500 focus:ring-indigo-500" %>
+    </div>
+    <div>
+      <%= f.label :discount, class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= f.number_field :discount, step: 0.01,
+            class: "w-full border-2 rounded-md border-gray-300 px-3 py-2 focus:border-indigo-500 focus:ring-indigo-500" %>
+    </div>
+  </div>
+
+  <!-- Submit -->
+  <div class="mt-6">
+    <%= f.submit "Create Invoice",
+          class: "w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2.5 rounded-md transition duration-200" %>
+  </div>
+
+<% end %>

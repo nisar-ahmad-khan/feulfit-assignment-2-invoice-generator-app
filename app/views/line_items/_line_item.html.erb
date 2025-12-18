@@ -1,0 +1,32 @@
+<div id="<%= dom_id line_item %>" class="bg-white shadow-md rounded-xl p-4 mb-4">
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div>
+      <p class="text-gray-500 text-sm">Description</p>
+      <p class="font-medium text-gray-800"><%= line_item.description %></p>
+    </div>
+
+    <div>
+      <p class="text-gray-500 text-sm">Unit Price</p>
+      <p class="font-medium text-gray-800"><%= number_to_currency(line_item.unit_price) %></p>
+    </div>
+
+    <div>
+      <p class="text-gray-500 text-sm">Total Amount</p>
+      <p class="font-medium text-gray-800"><%= number_to_currency(line_item.total_amount) %></p>
+    </div>
+
+    <div>
+      <p class="text-gray-500 text-sm">Invoice</p>
+      <p class="font-medium text-gray-800">
+        <%= link_to "Invoice ##{line_item.invoice_id}", invoice_path(line_item.invoice_id), class: "text-indigo-600 hover:underline" %>
+      </p>
+    </div>
+
+    <div>
+      <p class="text-gray-500 text-sm">Product</p>
+      <p class="font-medium text-gray-800"><%= line_item.product_id %></p>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,9 @@
+<% content_for :title, "New client" %>
+
+<h1 class="text-3xl font-bold text-gray-800 mb-6">New Client</h1>
+
+<%= render "form", client: @client %>
+
+<div class="mt-6">
+  <%= link_to "Back to clients", clients_path, class: "text-blue-500 hover:underline" %>
+</div>

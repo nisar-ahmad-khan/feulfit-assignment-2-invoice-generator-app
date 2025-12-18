@@ -1,0 +1,11 @@
+<% if notice %>
+  <p class="bg-green-100 text-green-800 px-4 py-2 rounded mb-4"><%= notice %></p>
+<% end %>
+
+<%= render @client %>
+
+<div class="mt-6 flex space-x-4">
+  <%= link_to "Edit this client", edit_client_path(@client), class: "bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors" %>
+  <%= link_to "Back to clients", clients_path, class: "bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition-colors" %>
+  <%= button_to "Destroy this client", @client, method: :delete, data: { confirm: "Are you sure?" }, class: "bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition-colors" %>
+</div>
