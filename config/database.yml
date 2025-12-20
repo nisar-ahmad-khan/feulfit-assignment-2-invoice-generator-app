@@ -13,4 +13,4 @@ test:
 production:
   adapter: postgresql
   encoding: unicode
-  url: postgresql://feulfit_db_user:K9bynx1mI29Qp3pfchFCZSm8VuPfYXs0@dpg-d53ahtruibrs73fo76r0-a/feulfit_db
+  url: <%= ENV["DATABASE_URL"]%>
