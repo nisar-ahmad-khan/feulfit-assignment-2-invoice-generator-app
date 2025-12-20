@@ -13,4 +13,9 @@ test:
 production:
   adapter: postgresql
   encoding: unicode
-  url: <%= ENV["DATABASE_URL"]%>
+  url: <%= ENV["DATABASE_URL"] %>
+
+# Add this so Rails knows what DB to use for Action Cable
+cable:
+  <<: *default
+  url: <%= ENV["DATABASE_URL"] %>
