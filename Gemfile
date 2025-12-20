@@ -81,6 +81,6 @@ gem "tailwindcss-rails", "~> 4.4"
 
 gem "devise", "~> 4.9"
 
-group :development, :test do
-  gem 'dotenv-rails'
-end
+# group :development, :test do
+#   gem 'dotenv-rails'
+# end
