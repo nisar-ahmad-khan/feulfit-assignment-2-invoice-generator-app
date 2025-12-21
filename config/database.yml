@@ -11,6 +11,12 @@ test:
   database: storage/test.sqlite3
 
 production:
-  adapter: postgresql
-  encoding: unicode
-  url: <%= ENV["DATABASE_URL"] %>
+  primary:
+    adapter: postgresql
+    encoding: unicode
+    url: <%= ENV["DATABASE_URL"] %>
+
+  cable:
+    adapter: postgresql
+    encoding: unicode
+    url: <%= ENV["DATABASE_URL"] %>
