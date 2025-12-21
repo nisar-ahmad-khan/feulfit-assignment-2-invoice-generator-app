@@ -25,3 +25,8 @@ production:
     adapter: postgresql
     encoding: unicode
     url: <%= ENV["DATABASE_URL"] %>
+
+  cache:
+    adapter: postgresql
+    encoding: unicode
+    url: <%= ENV["DATABASE_URL"] %>
