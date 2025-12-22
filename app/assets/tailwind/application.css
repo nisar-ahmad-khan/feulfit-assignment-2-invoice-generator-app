@@ -1,1 +1,8 @@
 @import "tailwindcss";
+.nav-link {
+  @apply text-gray-700 hover:text-indigo-600 font-medium transition;
+}
+
+.mobile-link {
+  @apply block text-gray-700 hover:text-indigo-600 font-medium;
+}

@@ -15,25 +15,64 @@
 
     <!-- Navbar -->
     <% if user_signed_in? %>
-    <header class="bg-white shadow-md fixed top-0 inset-x-0 z-50">
-      <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-      <h1 class="text-xl font-bold text-indigo-600">FeulFit</h1>
-       <%= link_to "Clients", clients_path,method: :get%> 
-       <%= link_to "Products" , products_path, method: :get%>
-       <%= link_to "Invoices" , invoices_path,method: :get %>
-       <%= link_to "New Invoice" , new_invoice_path , method: :get %>
-       <% end %>
-        <div class="flex items-center gap-4">
-          <% if user_signed_in? %>
-            <span class="font-medium text-green-500"><%= current_user.email %></span>
-            <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "bg-red-500 hover:bg-red-600 text-white text-sm px-4 py-2 rounded-md transition" %>
-          <% else %>
-            <%= button_to "Sign Up", new_user_registration_path, class: "bg-indigo-500 hover:bg-indigo-600 text-white text-sm px-4 py-2 rounded-md transition" %>
-            <%= button_to "Login", new_user_session_path, class: "bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm px-4 py-2 rounded-md transition" %>
-          <% end %>
+   <header class="bg-white shadow-md fixed top-0 inset-x-0 z-50">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+
+    <!-- Logo -->
+    <h1 class="text-xl font-bold text-indigo-600">FeulFit</h1>
+
+    <!-- Desktop Menu -->
+    <% if user_signed_in? %>
+      <nav class="hidden md:flex items-center gap-6">
+        <%= link_to "Clients", clients_path, class: "nav-link" %>
+        <%= link_to "Products", products_path, class: "nav-link" %>
+        <%= link_to "Invoices", invoices_path, class: "nav-link" %>
+        <%= link_to "New Invoice", new_invoice_path, class: "nav-link font-semibold text-indigo-600" %>
+      </nav>
+    <% end %>
+
+    <!-- Right Section -->
+    <div class="hidden md:flex items-center gap-4">
+      <% if user_signed_in? %>
+        <span class="font-medium text-green-500"><%= current_user.email %></span>
+        <%= button_to "Logout", destroy_user_session_path, method: :delete,
+              class: "bg-red-500 hover:bg-red-600 text-white text-sm px-4 py-2 rounded-md transition" %>
+      <% else %>
+        <%= link_to "Sign Up", new_user_registration_path,
+              class: "bg-indigo-500 hover:bg-indigo-600 text-white text-sm px-4 py-2 rounded-md rounded" %>
+        <%= link_to "Login", new_user_session_path,
+              class: "bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm px-4 py-2 rounded-md" %>
+      <% end %>
+    </div>
+
+    <!-- Mobile Hamburger -->
+    <button id="menu-btn" class="md:hidden text-gray-700 focus:outline-none">
+      ☰
+    </button>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="hidden md:hidden bg-white border-t">
+    <div class="px-6 py-4 space-y-3">
+      <% if user_signed_in? %>
+        <%= link_to "Clients", clients_path, class: "mobile-link" %>
+        <%= link_to "Products", products_path, class: "mobile-link" %>
+        <%= link_to "Invoices", invoices_path, class: "mobile-link" %>
+        <%= link_to "New Invoice", new_invoice_path, class: "mobile-link font-semibold text-indigo-600" %>
+
+        <div class="pt-4 border-t">
+          <p class="text-sm text-green-500 mb-2"><%= current_user.email %></p>
+          <%= button_to "Logout", destroy_user_session_path, method: :delete,
+                class: "w-full bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md" %>
         </div>
-      </div>
-    </header>
+      <% else %>
+        <%= link_to "Sign Up", new_user_registration_path, class: "mobile-link" %>
+        <%= link_to "Login", new_user_session_path, class: "mobile-link" %>
+      <% end %>
+    </div>
+  </div>
+</header>
+
 
     <!-- Flash Messages -->
     <div class="max-w-4xl mx-auto mt-24 px-5 space-y-3">
