@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Invoice</title>
+
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 12px;
+      color: #333;
+    }
+
+    .container {
+      width: 100%;
+      padding: 20px;
+    }
+
+    .header-title {
+      font-size: 26px;
+      font-weight: bold;
+      color: #4f46e5;
+    }
+
+    .sub-text {
+      color: #666;
+      font-size: 11px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .info-table td {
+      padding: 6px 0;
+      vertical-align: top;
+    }
+
+    .line-items th {
+      background-color: #f3f4f6;
+      border: 1px solid #ddd;
+      padding: 8px;
+      font-weight: bold;
+      text-align: left;
+    }
+
+    .line-items td {
+      border: 1px solid #ddd;
+      padding: 8px;
+    }
+
+    .right {
+      text-align: right;
+    }
+
+    .status-paid {
+      color: #065f46;
+      font-weight: bold;
+    }
+
+    .status-pending {
+      color: #92400e;
+      font-weight: bold;
+    }
+
+    .totals-table td {
+      padding: 6px;
+    }
+
+    .grand-total {
+      font-size: 16px;
+      font-weight: bold;
+      color: #4f46e5;
+    }
+
+    .footer {
+      margin-top: 40px;
+      font-size: 11px;
+      color: #777;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+
+    <!-- HEADER -->
+    <table>
+      <tr>
+        <td>
+          <div class="header-title">
+            Feul<span style="color:#10b981;">Fit</span>
+          </div>
+          <div class="sub-text">
+            Invoice #<%= @invoice.id %><br>
+            Issue Date: <%= @invoice.issue_date.strftime("%b %d, %Y") %>
+          </div>
+        </td>
+        <td class="right">
+          <span class="<%= @invoice.status == 'paid' ? 'status-paid' : 'status-pending' %>">
+            <%= @invoice.status.capitalize %>
+          </span>
+        </td>
+      </tr>
+    </table>
+
+    <hr>
+
+    <!-- BILLING INFO -->
+    <table class="info-table">
+      <tr>
+        <td width="50%">
+          <strong>Billed To:</strong><br>
+          <%= @invoice.client.name %><br>
+          <%= @invoice.client.email %>
+        </td>
+        <td width="50%" class="right">
+          <strong>From:</strong><br>
+          FeulFit
+        </td>
+      </tr>
+    </table>
+
+    <br>
+
+    <!-- LINE ITEMS -->
+    <table class="line-items">
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th class="right">Qty</th>
+          <th class="right">Unit Price</th>
+          <th class="right">Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @invoice.line_items.each do |item| %>
+          <tr>
+            <td><%= item.product.name %></td>
+            <td class="right"><%= item.quantity %></td>
+            <td class="right"><%= number_to_currency(item.unit_price) %></td>
+            <td class="right"><%= number_to_currency(item.total_amount) %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+    <br>
+
+    <!-- TOTALS -->
+    <table class="totals-table" align="right" width="40%">
+      <tr>
+        <td>Subtotal</td>
+        <td class="right"><%= number_to_currency(@invoice.subtotal) %></td>
+      </tr>
+      <tr>
+        <td>Tax</td>
+        <td class="right"><%= number_to_currency(@invoice.tax) %></td>
+      </tr>
+      <tr>
+        <td>Discount</td>
+        <td class="right"><%= number_to_currency(@invoice.discount) %></td>
+      </tr>
+      <tr>
+        <td class="grand-total">Total</td>
+        <td class="right grand-total">
+          <%= number_to_currency(@invoice.grand_total) %>
+        </td>
+      </tr>
+    </table>
+
+    <div style="clear: both;"></div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+      Thank you for your business 💙<br>
+      FeulFit
+    </div>
+
+  </div>
+</body>
+</html>

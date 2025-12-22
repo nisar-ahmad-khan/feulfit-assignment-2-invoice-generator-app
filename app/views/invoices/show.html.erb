@@ -1,184 +1,75 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <title>Invoice</title>
+<!-- Invoice Container -->
+<div style="max-width: 800px; margin: 0 auto; background-color: #fff; box-shadow: 0 10px 25px rgba(0,0,0,0.1); border-radius: 16px; padding: 32px; font-family: Arial, sans-serif; color: #333;">
 
-  <style>
-    body {
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 12px;
-      color: #333;
-    }
+  <!-- Header with Text Logo -->
+  <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e5e7eb; padding-bottom: 16px; margin-bottom: 24px;">
+    <div style="display: flex; align-items: center; gap: 24px;">
+      <!-- Text Logo -->
+      <div style="font-size: 32px; font-weight: 800; color: #4f46e5; letter-spacing: -1px;">
+        Feul<span style="color: #10b981;">Fit</span>
+      </div>
+      <div>
+        <h2 style="margin: 0; font-size: 24px; font-weight: bold; color: #1f2937;">Invoice #<%= @invoice.id %></h2>
+        <span style="color: #6b7280; font-size: 14px;">Issue Date: <%= @invoice.issue_date.strftime("%b %d, %Y") %></span>
+      </div>
+    </div>
+    <span style="padding: 4px 12px; border-radius: 9999px; font-size: 12px; font-weight: 500; background-color: <%= @invoice.status == 'paid' ? '#d1fae5' : '#fef3c7' %>; color: <%= @invoice.status == 'paid' ? '#065f46' : '#92400e' %>;">
+      <%= @invoice.status.capitalize %>
+    </span>
+  </div>
 
-    .container {
-      width: 100%;
-      padding: 20px;
-    }
+  <!-- Client & Company Info -->
+  <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 24px; margin-bottom: 24px;">
+    <div style="flex: 1; min-width: 200px;">
+      <h3 style="margin-bottom: 4px; font-weight: 600; color: #374151;">Billed To:</h3>
+      <p style="margin: 0; font-weight: 500; color: #1f2937;"><%= @invoice.client.name %></p>
+      <p style="margin: 0; color: #6b7280;"><%= @invoice.client.email %></p>
+    </div>
+    <div style="flex: 1; min-width: 200px;">
+      <h3 style="margin-bottom: 4px; font-weight: 600; color: #374151;">From:</h3>
+      <p style="margin: 0; font-weight: 500; color: #1f2937;">FeulFit</p>
+    </div>
+  </div>
 
-    .header-title {
-      font-size: 26px;
-      font-weight: bold;
-      color: #4f46e5;
-    }
-
-    .sub-text {
-      color: #666;
-      font-size: 11px;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    .info-table td {
-      padding: 6px 0;
-      vertical-align: top;
-    }
-
-    .line-items th {
-      background-color: #f3f4f6;
-      border: 1px solid #ddd;
-      padding: 8px;
-      font-weight: bold;
-      text-align: left;
-    }
-
-    .line-items td {
-      border: 1px solid #ddd;
-      padding: 8px;
-    }
-
-    .right {
-      text-align: right;
-    }
-
-    .status-paid {
-      color: #065f46;
-      font-weight: bold;
-    }
-
-    .status-pending {
-      color: #92400e;
-      font-weight: bold;
-    }
-
-    .totals-table td {
-      padding: 6px;
-    }
-
-    .grand-total {
-      font-size: 16px;
-      font-weight: bold;
-      color: #4f46e5;
-    }
-
-    .footer {
-      margin-top: 40px;
-      font-size: 11px;
-      color: #777;
-      text-align: center;
-    }
-  </style>
-</head>
-
-<body>
-  <div class="container">
-
-    <!-- HEADER -->
-    <table>
-      <tr>
-        <td>
-          <div class="header-title">
-            Feul<span style="color:#10b981;">Fit</span>
-          </div>
-          <div class="sub-text">
-            Invoice #<%= @invoice.id %><br>
-            Issue Date: <%= @invoice.issue_date.strftime("%b %d, %Y") %>
-          </div>
-        </td>
-        <td class="right">
-          <span class="<%= @invoice.status == 'paid' ? 'status-paid' : 'status-pending' %>">
-            <%= @invoice.status.capitalize %>
-          </span>
-        </td>
-      </tr>
-    </table>
-
-    <hr>
-
-    <!-- BILLING INFO -->
-    <table class="info-table">
-      <tr>
-        <td width="50%">
-          <strong>Billed To:</strong><br>
-          <%= @invoice.client.name %><br>
-          <%= @invoice.client.email %>
-        </td>
-        <td width="50%" class="right">
-          <strong>From:</strong><br>
-          FeulFit
-        </td>
-      </tr>
-    </table>
-
-    <br>
-
-    <!-- LINE ITEMS -->
-    <table class="line-items">
-      <thead>
+  <!-- Line Items Table -->
+  <div style="overflow-x:auto;">
+    <table style="width: 100%; border-collapse: collapse; border: 1px solid #e5e7eb;">
+      <thead style="background-color: #f3f4f6;">
         <tr>
-          <th>Product</th>
-          <th class="right">Qty</th>
-          <th class="right">Unit Price</th>
-          <th class="right">Total</th>
+          <th style="border: 1px solid #e5e7eb; padding: 12px; text-align: left;">Product</th>
+          <th style="border: 1px solid #e5e7eb; padding: 12px; text-align: center;">Qty</th>
+          <th style="border: 1px solid #e5e7eb; padding: 12px; text-align: right;">Unit Price</th>
+          <th style="border: 1px solid #e5e7eb; padding: 12px; text-align: right;">Total</th>
         </tr>
       </thead>
       <tbody>
         <% @invoice.line_items.each do |item| %>
-          <tr>
-            <td><%= item.product.name %></td>
-            <td class="right"><%= item.quantity %></td>
-            <td class="right"><%= number_to_currency(item.unit_price) %></td>
-            <td class="right"><%= number_to_currency(item.total_amount) %></td>
+          <tr style="background-color: #fff;">
+            <td style="border: 1px solid #e5e7eb; padding: 12px;"><%= item.product.name %></td>
+            <td style="border: 1px solid #e5e7eb; padding: 12px; text-align: center;"><%= item.quantity %></td>
+            <td style="border: 1px solid #e5e7eb; padding: 12px; text-align: right;"><%= number_to_currency(item.unit_price) %></td>
+            <td style="border: 1px solid #e5e7eb; padding: 12px; text-align: right; font-weight: 600; color: #1f2937;"><%= number_to_currency(item.total_amount) %></td>
           </tr>
         <% end %>
       </tbody>
     </table>
-
-    <br>
-
-    <!-- TOTALS -->
-    <table class="totals-table" align="right" width="40%">
-      <tr>
-        <td>Subtotal</td>
-        <td class="right"><%= number_to_currency(@invoice.subtotal) %></td>
-      </tr>
-      <tr>
-        <td>Tax</td>
-        <td class="right"><%= number_to_currency(@invoice.tax) %></td>
-      </tr>
-      <tr>
-        <td>Discount</td>
-        <td class="right"><%= number_to_currency(@invoice.discount) %></td>
-      </tr>
-      <tr>
-        <td class="grand-total">Total</td>
-        <td class="right grand-total">
-          <%= number_to_currency(@invoice.grand_total) %>
-        </td>
-      </tr>
-    </table>
-
-    <div style="clear: both;"></div>
-
-    <!-- FOOTER -->
-    <div class="footer">
-      Thank you for your business 💙<br>
-      FeulFit
-    </div>
-
   </div>
-</body>
-</html>
+
+  <!-- Totals -->
+  <div style="display: flex; flex-direction: column; align-items: flex-end; margin-top: 24px; gap: 8px; width: 100%; max-width: 250px;">
+    <div style="display: flex; justify-content: space-between; width: 100%; color: #374151;"><span>Subtotal:</span> <span><%= number_to_currency(@invoice.subtotal) %></span></div>
+    <div style="display: flex; justify-content: space-between; width: 100%; color: #374151;"><span>Tax:</span> <span><%= number_to_currency(@invoice.tax) %></span></div>
+    <div style="display: flex; justify-content: space-between; width: 100%; color: #374151;"><span>Discount:</span> <span><%= number_to_currency(@invoice.discount) %></span></div>
+    <div style="display: flex; justify-content: space-between; width: 100%; font-weight: bold; font-size: 18px; color: #4f46e5;"><span>Total:</span> <span><%= number_to_currency(@invoice.grand_total) %></span></div>
+  </div>
+
+  <!-- Action Buttons (hidden in PDF) -->
+  <% unless request.format.pdf? %>
+  <div style="display: flex; flex-wrap: wrap; gap: 16px; margin-top: 24px;">
+    <%= link_to "Edit", edit_invoice_path(@invoice), style: "background-color: #4f46e5; color: #fff; font-weight: 600; padding: 10px 20px; border-radius: 8px; text-decoration: none;" %>
+    <%= link_to "Back", invoices_path, style: "background-color: #e5e7eb; color: #1f2937; font-weight: 600; padding: 10px 20px; border-radius: 8px; text-decoration: none;" %>
+    <%= button_to "Delete", @invoice, method: :delete, data: { confirm: "Are you sure?" }, style: "background-color: #dc2626; color: #fff; font-weight: 600; padding: 10px 20px; border-radius: 8px; border: none; cursor: pointer;" %>
+    <%= link_to "Download PDF", invoice_path(@invoice, format: :pdf), style: "background-color: #10b981; color: #fff; font-weight: 600; padding: 10px 20px; border-radius: 8px; margin-left: auto; text-decoration: none;" %>
+  </div>
+<%end%>
+</div>

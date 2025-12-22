@@ -25,7 +25,7 @@ class InvoicesController < ApplicationController
     format.html
     format.pdf do
       render pdf: "feulfit_invoice_#{@invoice.id}",
-             template: "invoices/show",
+             template: "invoices/pdf",
              formats: [:html],
              layout: 'pdf'
     end
