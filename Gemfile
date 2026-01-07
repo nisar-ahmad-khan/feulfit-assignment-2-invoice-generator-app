@@ -77,7 +77,9 @@ group :test do
 end
 
 gem "tailwindcss-rails", "~> 4.4"
-
 gem "devise", "~> 4.9"
 ruby "3.3.10"
 
+gem "sidekiq"
+
+gem "sqlite3", "~> 2.1"
