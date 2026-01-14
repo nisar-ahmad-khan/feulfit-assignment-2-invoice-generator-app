@@ -1,87 +1,281 @@
-<!-- Invoice Container -->
-<div style="max-width: 800px; margin: 0 auto; background-color: #fff; box-shadow: 0 10px 25px rgba(0,0,0,0.1); border-radius: 16px; padding: 32px; font-family: Arial, sans-serif; color: #333;">
+<!DOCTYPE html>
+<html>
+<head>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-  <!-- Header -->
-  <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e5e7eb; padding-bottom: 16px; margin-bottom: 24px;">
-    <div style="display: flex; align-items: center; gap: 24px;">
-      <div style="font-size: 32px; font-weight: 800; color: #4f46e5; letter-spacing: -1px;">
-        Feul<span style="color: #10b981;">Fit</span>
-      </div>
-      <div>
-        <h2 style="margin: 0; font-size: 24px; font-weight: bold; color: #1f2937;">
-          Invoice #<%= @invoice.id %>
-        </h2>
-        <span style="color: #6b7280; font-size: 14px;">
-          Issue Date: <%= @invoice.issue_date.strftime("%b %d, %Y") %>
-        </span>
-      </div>
-    </div>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Indie+Flower&family=Dancing+Script&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script&family=Pacifico&display=swap" rel="stylesheet">
 
-    <span style="padding: 4px 12px; border-radius: 9999px; font-size: 12px; font-weight: 500;
-      background-color: <%= @invoice.status == 'paid' ? '#d1fae5' : '#fef3c7' %>;
-      color: <%= @invoice.status == 'paid' ? '#065f46' : '#92400e' %>;">
-      <%= @invoice.status.capitalize %>
-    </span>
-  </div>
+  <meta charset="UTF-8">
+  <title>Invoice</title>
 
-  <!-- Client & Company Info -->
-  <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 24px; margin-bottom: 24px;">
-    <div style="flex: 1; min-width: 200px;">
-      <h3 style="margin-bottom: 4px; font-weight: 600; color: #374151;">Billed To:</h3>
-      <p style="margin: 0; font-weight: 500; color: #1f2937;"><%= @invoice.client.name %></p>
-      <p style="margin: 0; color: #6b7280;"><%= @invoice.client.email %></p>
-    </div>
+  <style>
+    body {
+      font-family: montserrat, sans-serif;
+      font-size: 12px;
+      color: #222;
+      border:0
+    }
 
-    <div style="flex: 1; min-width: 200px;">
-      <h3 style="margin-bottom: 4px; font-weight: 600; color: #374151;">From:</h3>
-      <p style="margin: 0; font-weight: 500; color: #1f2937;">FeulFit</p>
-    </div>
-  </div>
+    .container {
+      width: 100%;
+      border:0;
+      padding: 30px;
+    }
 
-  <!-- Line Items -->
-  <div style="overflow-x:auto;">
-    <table style="width: 100%; border-collapse: collapse; border: 1px solid #e5e7eb;">
-      <thead style="background-color: #f3f4f6;">
-        <tr>
-          <th style="border: 1px solid #e5e7eb; padding: 12px; text-align: left;">Product</th>
-          <th style="border: 1px solid #e5e7eb; padding: 12px; text-align: center;">Qty</th>
-          <th style="border: 1px solid #e5e7eb; padding: 12px; text-align: right;">Unit Price</th>
-          <th style="border: 1px solid #e5e7eb; padding: 12px; text-align: right;">Total</th>
+    .logo {
+      font-size: 22px;
+      font-weight: bold;
+      border:0;
+    }
+
+    .logo span {
+      color: #1faa59;
+    }
+
+    .muted {
+      color: #1a1a1aff;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .section-title {
+      font-weight: bold;
+      letter-spacing: 1px;
+      font-size: 11px;
+      margin-bottom: 6px;
+      border:0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      border:0;
+    }
+
+    .right {
+      text-align: right;
+    }
+
+    hr {
+      border-top: 2px solid black;
+      margin: 20px 0;
+    }
+
+    .items th {
+      text-align: left;
+      font-size: 11px;
+      padding: 8px 0;
+      border:0;
+    }
+
+    .items td {
+      padding: 10px 0;
+      border:0
+    }
+
+    .items tfoot td {
+      border:0;
+      padding-top: 12px;
+      font-weight: bold;
+    }
+
+th{
+  background-color: white;
+}
+
+     .totals {
+  width: 40%;
+  float: right;
+  border:0
+  margin-top: 20px;
+}
+
+.totals td {
+  padding: 4px 0;
+  font-size: 11px;
+  border:0;
+}
+
+.totals .amount-row td {
+  padding-top: 10px;
+  border-top: 1px solid #999;
+  border:0;
+}
+
+.amount-due {
+  font-weight: bold;
+  border:0;
+}
+
+  
+.footer {
+  margin-top: 60px;
+  clear: both;
+  display: table;
+  width: 100%;
+}
+
+.footer-left,
+.footer-right {
+  display: table-cell;
+  vertical-align: bottom;
+}
+
+.footer-left {
+  width: 60%;
+}
+
+.footer-right {
+  width: 40%;
+  text-align: right;
+}
+
+    .bank {
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .thanks {
+      float: right;
+      font-size: 42px;
+      font-family: 'Dancing Script', cursive;
+      transform: rotate(345deg);
+      line-height: 0.85
+    }
+  </style>
+  
+</head>
+
+<body style="background-color:white" class="">
+
+<div class="container" style="margin-top:5px">
+<div>
+<%= image_tag "https://fuelfit.pk/assets/fuelfit-logo-wcvYpe4y.png" , width: "150" %>
+</div>
+
+  <table style="border:0">
+    <tr style="border:0">
+      <td  style="border:0"width="50%">
+        <div class="muted" style="border:0;">
+        <span ><b>From</b></span> <br>
+        FeulFit <br>
+          Mall of Sargodha, University Road<br>
+          +92 345 3736873<br>
+          fuelfitpk@gmail.com
+        </div>
+      </td>
+
+      <td style="border:0" width="30%" class="" style="text-align:center">
+        <div style="border:0 margin-bottom:2px"><strong>INVOICE DETAILS</strong></div>
+        <div style="border:0" class="muted">
+          INVOICE NUMBER: <br>
+          DATE OF ISSUE:<br>
+          PAYMENT DUE ON:
+        </div>
+      </td>
+
+      <td style="border:0">
+        <div style="border:0" class="muted">
+        <br>
+          FF-<%= @invoice.issue_date.strftime("%Y") %>-<%= @invoice.id %><br>
+         <%= @invoice.issue_date.strftime("%B %d, %Y") %><br>
+        <%= @invoice.due_date.strftime("%B %d, %Y") %>
+        </div>
+      </td>
+    </tr>
+  </table>
+
+  <br>
+
+  <table style="border:0">
+    <tr style="border:0">
+      <td style="border:0" width="50%">
+        <div style="border:0" class="section-title">BILL TO</div>
+        <div style="border:0" class="muted">
+          <%= @invoice.client.name %><br>
+          <%= @invoice.client.address %><br>
+          <%= number_to_phone(@invoice.client.phone , delimiter: " " , country_code: 92)%><br>
+          <%= @invoice.client.email %>
+        </div>
+      </td>
+    </tr>
+  </table>
+
+  <table class="items" style="background-color:white">
+    <thead style="border-top:1px solid black; background-color:white ; border-bottom:1px solid black ;text-align:center ; ">
+      <tr style="background-color:white ; text-align:center;">
+        <th>DESCRIPTION</th>
+        <th>PRICE</th>
+        <th class="left">QTY</th>
+        <th class="left">DISCOUNT</th>
+        <th style="text-align:right">TOTAL</th>
+      </tr>
+    </thead>
+
+    <tbody style="font-size:15px">
+      <% @invoice.line_items.each do |item| %>
+        <tr style="margin-top:5px ; margin-bottom:5px ; ">
+          <td><%= item.product.name %></td>
+          <td class="left"><%= number_with_delimiter(item.unit_price) %></td>
+          <td class="left"><%= item.quantity %></td>
+           <% end %>
+          <td><%= number_to_percentage(@invoice.discount, precision: 2) %></td>
+          <td style="text-align:right"><%= number_with_delimiter(@invoice.discount_amount) %></td>
+          
         </tr>
-      </thead>
-      <tbody>
-        <% @invoice.line_items.each do |item| %>
-          <tr>
-            <td style="border: 1px solid #e5e7eb; padding: 12px;"><%= item.product.name %></td>
-            <td style="border: 1px solid #e5e7eb; padding: 12px; text-align: center;"><%= item.quantity %></td>
-            <td style="border: 1px solid #e5e7eb; padding: 12px; text-align: right;"><%= number_to_currency(item.unit_price) %></td>
-            <td style="border: 1px solid #e5e7eb; padding: 12px; text-align: right; font-weight: 600;">
-              <%= number_to_currency(item.total_amount) %>
-            </td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
+     
+    </tbody>
+
+    <tfoot>
+      <tr style="border-bottom: 1px solid black ; border-top:1px solid black ;margin-top:5px ; margin-bottom:5px">
+        <td colspan="3">TOTAL</td>
+        <td></td>
+        <td class="right"><%= number_with_delimiter(@invoice.discount_amount) %></td>
+      </tr>
+    </tfoot>
+  </table>
+
+<table class="totals" style="border:0;">
+  <tr>
+    <td class="right">Total</td>
+    <td class="right"><%= number_with_delimiter(@invoice.discount_amount) %></td>
+  </tr>
+
+  <tr>
+    <td class="right">Tax</td>
+    <td class="right">
+      <%= @invoice.tax.to_f.zero? ? "Incl." : number_with_delimiter(@invoice.tax) %>
+    </td>
+  </tr>
+
+  <tr class="amount-row">
+    <td class="right amount-due">Amount due</td>
+    <td class="right amount-due">
+      <%= number_with_delimiter(@invoice.grand_total) %>
+    </td>
+  </tr>
+</table>
+
+  <div class="footer">
+  <div class="footer-left">
+    <strong>BANK DETAILS</strong><br>
+    <p style="font-family:monospace">
+      Easypaisa Digital Bank<br>
+      Account Name: Adnan Ashraf<br>
+      Account No: 0307-4958235<br>
+      Pay by: <%= @invoice.due_date.strftime("%B %d, %Y") %>
+    </p>
   </div>
 
-  <!-- Totals -->
-  <div style="display: flex; flex-direction: column; align-items: flex-end; margin-top: 24px; gap: 8px; width: 100%; max-width: 260px;">
-    <div style="display: flex; justify-content: space-between; width: 100%;">
-      <span>Subtotal:</span>
-      <span><%= number_to_currency(@invoice.subtotal) %></span>
-    </div>
-    <div style="display: flex; justify-content: space-between; width: 100%;">
-      <span>Tax:</span>
-      <span><%= number_to_currency(@invoice.tax) %></span>
-    </div>
-    <div style="display: flex; justify-content: space-between; width: 100%;">
-      <span>Discount:</span>
-      <span><%= number_to_currency(@invoice.discount) %></span>
-    </div>
-    <div style="display: flex; justify-content: space-between; width: 100%; font-weight: bold; font-size: 18px; color: #4f46e5;">
-      <span>Total:</span>
-      <span><%= number_to_currency(@invoice.grand_total) %></span>
+  <div class="footer-right">
+    <div class="thanks">
+      thank<br>you
     </div>
   </div>
+</div>
+
 
 </div>
+</body>
+</html>

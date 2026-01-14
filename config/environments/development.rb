@@ -97,4 +97,5 @@ Rails.application.configure do
   }
   config.action_mailer.perform_deliveries = true  # Ensure emails are actually sent
   config.action_mailer.raise_delivery_errors = true  # Show errors for debugging
+  config.eager_load =  false
 end

@@ -10,12 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_17_152130) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_13_134911) do
   create_table "clients", force: :cascade do |t|
     t.text "address"
     t.datetime "created_at", null: false
     t.string "email"
     t.string "name"
+    t.integer "phone"
     t.datetime "updated_at", null: false
     t.integer "user_id", null: false
     t.index ["email"], name: "index_clients_on_email", unique: true
@@ -44,9 +45,11 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_17_152130) do
   create_table "line_items", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "description"
+    t.decimal "discount"
     t.integer "invoice_id", null: false
     t.integer "product_id", null: false
     t.integer "quantity"
+    t.decimal "tax"
     t.decimal "total_amount"
     t.decimal "unit_price"
     t.datetime "updated_at", null: false

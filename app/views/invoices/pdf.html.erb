@@ -1,184 +1,281 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Indie+Flower&family=Dancing+Script&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script&family=Pacifico&display=swap" rel="stylesheet">
+
   <meta charset="UTF-8">
   <title>Invoice</title>
 
   <style>
     body {
-      font-family: Arial, Helvetica, sans-serif;
+      font-family: montserrat, sans-serif;
       font-size: 12px;
-      color: #333;
+      color: #222;
+      border:0
     }
 
     .container {
       width: 100%;
-      padding: 20px;
+      border:0;
+      padding: 30px;
     }
 
-    .header-title {
-      font-size: 26px;
+    .logo {
+      font-size: 22px;
       font-weight: bold;
-      color: #4f46e5;
+      border:0;
     }
 
-    .sub-text {
-      color: #666;
+    .logo span {
+      color: #1faa59;
+    }
+
+    .muted {
+      color: #1a1a1aff;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .section-title {
+      font-weight: bold;
+      letter-spacing: 1px;
       font-size: 11px;
+      margin-bottom: 6px;
+      border:0;
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
-    }
-
-    .info-table td {
-      padding: 6px 0;
-      vertical-align: top;
-    }
-
-    .line-items th {
-      background-color: #f3f4f6;
-      border: 1px solid #ddd;
-      padding: 8px;
-      font-weight: bold;
-      text-align: left;
-    }
-
-    .line-items td {
-      border: 1px solid #ddd;
-      padding: 8px;
+      border:0;
     }
 
     .right {
       text-align: right;
     }
 
-    .status-paid {
-      color: #065f46;
-      font-weight: bold;
+    hr {
+      border-top: 2px solid black;
+      margin: 20px 0;
     }
 
-    .status-pending {
-      color: #92400e;
-      font-weight: bold;
-    }
-
-    .totals-table td {
-      padding: 6px;
-    }
-
-    .grand-total {
-      font-size: 16px;
-      font-weight: bold;
-      color: #4f46e5;
-    }
-
-    .footer {
-      margin-top: 40px;
+    .items th {
+      text-align: left;
       font-size: 11px;
-      color: #777;
-      text-align: center;
+      padding: 8px 0;
+      border:0;
+    }
+
+    .items td {
+      padding: 10px 0;
+      border:0
+    }
+
+    .items tfoot td {
+      border:0;
+      padding-top: 12px;
+      font-weight: bold;
+    }
+
+th{
+  background-color: white;
+}
+
+     .totals {
+  width: 40%;
+  float: right;
+  border:0
+  margin-top: 20px;
+}
+
+.totals td {
+  padding: 4px 0;
+  font-size: 11px;
+  border:0;
+}
+
+.totals .amount-row td {
+  padding-top: 10px;
+  border-top: 1px solid #999;
+  border:0;
+}
+
+.amount-due {
+  font-weight: bold;
+  border:0;
+}
+
+  
+.footer {
+  margin-top: 60px;
+  clear: both;
+  display: table;
+  width: 100%;
+}
+
+.footer-left,
+.footer-right {
+  display: table-cell;
+  vertical-align: bottom;
+}
+
+.footer-left {
+  width: 60%;
+}
+
+.footer-right {
+  width: 40%;
+  text-align: right;
+}
+
+    .bank {
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .thanks {
+      float: right;
+      font-size: 42px;
+      font-family: 'Dancing Script', cursive;
+      transform: rotate(345deg);
+      line-height: 0.85
     }
   </style>
+  
 </head>
 
-<body>
-  <div class="container">
+<body style="background-color:white" class="">
 
-    <!-- HEADER -->
-    <table>
-      <tr>
-        <td>
-          <div class="header-title">
-            Feul<span style="color:#10b981;">Fit</span>
-          </div>
-          <div class="sub-text">
-            Invoice #<%= @invoice.id %><br>
-            Issue Date: <%= @invoice.issue_date.strftime("%b %d, %Y") %>
-          </div>
-        </td>
-        <td class="right">
-          <span class="<%= @invoice.status == 'paid' ? 'status-paid' : 'status-pending' %>">
-            <%= @invoice.status.capitalize %>
-          </span>
-        </td>
-      </tr>
-    </table>
+<div class="container" style="margin-top:5px">
+<div>
+<%= image_tag "https://fuelfit.pk/assets/fuelfit-logo-wcvYpe4y.png" , width: "150" %>
+</div>
 
-    <hr>
+  <table style="border:0">
+    <tr style="border:0">
+      <td  style="border:0"width="50%">
+        <div class="muted" style="border:0;">
+        <span ><b>From</b></span> <br>
+        FeulFit <br>
+          Mall of Sargodha, University Road<br>
+          +92 345 3736873<br>
+          fuelfitpk@gmail.com
+        </div>
+      </td>
 
-    <!-- BILLING INFO -->
-    <table class="info-table">
-      <tr>
-        <td width="50%">
-          <strong>Billed To:</strong><br>
+      <td style="border:0" width="30%" class="" style="text-align:center">
+        <div style="border:0 margin-bottom:2px"><strong>INVOICE DETAILS</strong></div>
+        <div style="border:0" class="muted">
+          INVOICE NUMBER: <br>
+          DATE OF ISSUE:<br>
+          PAYMENT DUE ON:
+        </div>
+      </td>
+
+      <td style="border:0">
+        <div style="border:0" class="muted">
+        <br>
+          FF-<%= @invoice.issue_date.strftime("%Y") %>-<%= @invoice.id %><br>
+         <%= @invoice.issue_date.strftime("%B %d, %Y") %><br>
+        <%= @invoice.due_date.strftime("%B %d, %Y") %>
+        </div>
+      </td>
+    </tr>
+  </table>
+
+  <br>
+
+  <table style="border:0">
+    <tr style="border:0">
+      <td style="border:0" width="50%">
+        <div style="border:0" class="section-title">BILL TO</div>
+        <div style="border:0" class="muted">
           <%= @invoice.client.name %><br>
+          <%= @invoice.client.address %><br>
+          <%= number_to_phone(@invoice.client.phone , delimiter: " " , country_code: 92)%><br>
           <%= @invoice.client.email %>
-        </td>
-        <td width="50%" class="right">
-          <strong>From:</strong><br>
-          FeulFit
-        </td>
+        </div>
+      </td>
+    </tr>
+  </table>
+
+  <table class="items" style="background-color:white">
+    <thead style="border-top:1px solid black; background-color:white ; border-bottom:1px solid black ;text-align:center ; ">
+      <tr style="background-color:white ; text-align:center;">
+        <th>DESCRIPTION</th>
+        <th>PRICE</th>
+        <th class="left">QTY</th>
+        <th class="left">DISCOUNT</th>
+        <th style="text-align:right">TOTAL</th>
       </tr>
-    </table>
+    </thead>
 
-    <br>
-
-    <!-- LINE ITEMS -->
-    <table class="line-items">
-      <thead>
-        <tr>
-          <th>Product</th>
-          <th class="right">Qty</th>
-          <th class="right">Unit Price</th>
-          <th class="right">Total</th>
+    <tbody style="font-size:15px">
+      <% @invoice.line_items.each do |item| %>
+        <tr style="margin-top:5px ; margin-bottom:5px ; ">
+          <td><%= item.product.name %></td>
+          <td class="left"><%= number_with_delimiter(item.unit_price) %></td>
+          <td class="left"><%= item.quantity %></td>
+           <% end %>
+          <td><%= number_to_percentage(@invoice.discount, precision: 2) %></td>
+          <td style="text-align:right"><%= number_with_delimiter(@invoice.discount_amount) %></td>
+          
         </tr>
-      </thead>
-      <tbody>
-        <% @invoice.line_items.each do |item| %>
-          <tr>
-            <td><%= item.product.name %></td>
-            <td class="right"><%= item.quantity %></td>
-            <td class="right"><%= number_to_currency(item.unit_price) %></td>
-            <td class="right"><%= number_to_currency(item.total_amount) %></td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
+     
+    </tbody>
 
-    <br>
-
-    <!-- TOTALS -->
-    <table class="totals-table" align="right" width="40%">
-      <tr>
-        <td>Subtotal</td>
-        <td class="right"><%= number_to_currency(@invoice.subtotal) %></td>
+    <tfoot>
+      <tr style="border-bottom: 1px solid black ; border-top:1px solid black ;margin-top:5px ; margin-bottom:5px">
+        <td colspan="3">TOTAL</td>
+        <td></td>
+        <td class="right"><%= number_with_delimiter(@invoice.discount_amount) %></td>
       </tr>
-      <tr>
-        <td>Tax</td>
-        <td class="right"><%= number_to_currency(@invoice.tax) %></td>
-      </tr>
-      <tr>
-        <td>Discount</td>
-        <td class="right"><%= number_to_currency(@invoice.discount) %></td>
-      </tr>
-      <tr>
-        <td class="grand-total">Total</td>
-        <td class="right grand-total">
-          <%= number_to_currency(@invoice.grand_total) %>
-        </td>
-      </tr>
-    </table>
+    </tfoot>
+  </table>
 
-    <div style="clear: both;"></div>
+<table class="totals" style="border:0;">
+  <tr>
+    <td class="right">Total</td>
+    <td class="right"><%= number_with_delimiter(@invoice.discount_amount) %></td>
+  </tr>
 
-    <!-- FOOTER -->
-    <div class="footer">
-      Thank you for your business 💙<br>
-      FeulFit
-    </div>
+  <tr>
+    <td class="right">Tax</td>
+    <td class="right">
+      <%= @invoice.tax.to_f.zero? ? "Incl." : number_with_delimiter(@invoice.tax) %>
+    </td>
+  </tr>
 
+  <tr class="amount-row">
+    <td class="right amount-due">Amount due</td>
+    <td class="right amount-due">
+      <%= number_with_delimiter(@invoice.grand_total) %>
+    </td>
+  </tr>
+</table>
+
+  <div class="footer">
+  <div class="footer-left">
+    <strong>BANK DETAILS</strong><br>
+    <p style="font-family:monospace">
+      Easypaisa Digital Bank<br>
+      Account Name: Adnan Ashraf<br>
+      Account No: 0307-4958235<br>
+      Pay by: <%= @invoice.due_date.strftime("%B %d, %Y") %>
+    </p>
   </div>
+
+  <div class="footer-right">
+    <div class="thanks">
+      thank<br>you
+    </div>
+  </div>
+</div>
+
+
+</div>
 </body>
 </html>
