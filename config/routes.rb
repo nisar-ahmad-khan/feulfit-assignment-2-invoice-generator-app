@@ -1,6 +1,12 @@
 # require 'sidekiq/web'
 # require 'sidekiq'
 Rails.application.routes.draw do
+  resources :orders
+  resources :options
+  resources :option_groups
+  resources :menu_items
+  resources :menu_categories
+  get "home/index"
 # mount Sidekiq::Web => '/sidekiq'
 
   
@@ -8,7 +14,7 @@ devise_for :users
 
 
 
-  get "/" ,to: "clients#index"
+  get "/" ,to: "home#index" ,as: :index_home
  
 
   resources :line_items

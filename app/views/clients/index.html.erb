@@ -20,8 +20,8 @@
       </div>
 
       <div class="mb-2">
-        <strong class="text-gray-700 font-semibold">Email:</strong>
-        <span class="text-gray-900"><%= client.phone %></span>
+        <strong class="text-gray-700 font-semibold">Phone:</strong>
+        <span class="text-gray-900"><%= number_to_phone(client.phone ,delimiter: " " , country_code: 92) %></span>
       </div>
 
       <div class="mb-4">

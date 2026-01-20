@@ -1,0 +1,26 @@
+<div id="<%= dom_id menu_item %>" class="w-full sm:w-auto my-5 space-y-5">
+  <div>
+    <strong class="block font-medium mb-1">Menu category:</strong>
+    <%= menu_item.menu_category_id %>
+  </div>
+  <div>
+    <strong class="block font-medium mb-1">Name:</strong>
+    <%= menu_item.name %>
+  </div>
+  <div>
+    <strong class="block font-medium mb-1">Description:</strong>
+    <%= menu_item.description %>
+  </div>
+  <div>
+    <strong class="block font-medium mb-1">Image url:</strong>
+    <%= menu_item.image_url %>
+  </div>
+  <div>
+    <strong class="block font-medium mb-1">Price:</strong>
+    <%= menu_item.price %>
+  </div>
+  <div>
+    <strong class="block font-medium mb-1">Available:</strong>
+    <%= menu_item.available? ? "Yes" : "No" %>
+  </div>
+</div>

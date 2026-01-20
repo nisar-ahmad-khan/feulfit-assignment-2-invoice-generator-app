@@ -1,0 +1,21 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  client: one
+  delivery_address: MyText
+  delivary_date: 2026-01-20
+  delivary_time: 2026-01-20 12:40:55
+  customer_name: MyString
+  phone_number: 1
+  status: MyString
+  total_price: 9.99
+
+two:
+  client: two
+  delivery_address: MyText
+  delivary_date: 2026-01-20
+  delivary_time: 2026-01-20 12:40:55
+  customer_name: MyString
+  phone_number: 1
+  status: MyString
+  total_price: 9.99

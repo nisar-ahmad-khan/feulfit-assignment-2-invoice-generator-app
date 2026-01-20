@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  menu_item: one
+  name: MyString
+  required: false
+  min_selection: 1
+  max_selection: 1
+
+two:
+  menu_item: two
+  name: MyString
+  required: false
+  min_selection: 1
+  max_selection: 1

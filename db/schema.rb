@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_13_134911) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_20_074055) do
   create_table "clients", force: :cascade do |t|
     t.text "address"
     t.datetime "created_at", null: false
@@ -57,6 +57,60 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_13_134911) do
     t.index ["product_id"], name: "index_line_items_on_product_id"
   end
 
+  create_table "menu_categories", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.text "description"
+    t.string "name"
+    t.integer "position"
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "menu_items", force: :cascade do |t|
+    t.boolean "available"
+    t.datetime "created_at", null: false
+    t.text "description"
+    t.string "image_url"
+    t.integer "menu_category_id", null: false
+    t.string "name"
+    t.decimal "price"
+    t.datetime "updated_at", null: false
+    t.index ["menu_category_id"], name: "index_menu_items_on_menu_category_id"
+  end
+
+  create_table "option_groups", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "max_selection"
+    t.integer "menu_item_id", null: false
+    t.integer "min_selection"
+    t.string "name"
+    t.boolean "required"
+    t.datetime "updated_at", null: false
+    t.index ["menu_item_id"], name: "index_option_groups_on_menu_item_id"
+  end
+
+  create_table "options", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "name"
+    t.integer "option_group_id", null: false
+    t.decimal "price"
+    t.datetime "updated_at", null: false
+    t.index ["option_group_id"], name: "index_options_on_option_group_id"
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.integer "client_id", null: false
+    t.datetime "created_at", null: false
+    t.string "customer_name"
+    t.date "delivary_date"
+    t.time "delivary_time"
+    t.text "delivery_address"
+    t.integer "phone_number"
+    t.string "status"
+    t.decimal "total_price"
+    t.datetime "updated_at", null: false
+    t.index ["client_id"], name: "index_orders_on_client_id"
+  end
+
   create_table "products", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "name"
@@ -83,5 +137,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_13_134911) do
   add_foreign_key "invoices", "users"
   add_foreign_key "line_items", "invoices"
   add_foreign_key "line_items", "products"
+  add_foreign_key "menu_items", "menu_categories"
+  add_foreign_key "option_groups", "menu_items"
+  add_foreign_key "options", "option_groups"
+  add_foreign_key "orders", "clients"
   add_foreign_key "products", "users"
 end

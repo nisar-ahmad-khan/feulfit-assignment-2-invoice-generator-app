@@ -1,0 +1,32 @@
+<%= form_with(model: option, class: "contents") do |form| %>
+  <% if option.errors.any? %>
+    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-md mt-3">
+      <h2><%= pluralize(option.errors.count, "error") %> prohibited this option from being saved:</h2>
+
+      <ul class="list-disc ml-6">
+        <% option.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="my-5">
+    <%= form.label :option_group_id %>
+    <%= form.collection_select :option_group_id,OptionGroup.all , :id , :name , {prompt: "Select option group"} ,class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": option.errors[:option_group_id].none?, "border-red-400 focus:outline-red-600": option.errors[:option_group_id].any?}] %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :name %>
+    <%= form.text_field :name, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": option.errors[:name].none?, "border-red-400 focus:outline-red-600": option.errors[:name].any?}] %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :price %>
+    <%= form.text_field :price, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": option.errors[:price].none?, "border-red-400 focus:outline-red-600": option.errors[:price].any?}] %>
+  </div>
+
+  <div class="inline">
+    <%= form.submit class: "w-full sm:w-auto rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white inline-block font-medium cursor-pointer" %>
+  </div>
+<% end %>

@@ -17,7 +17,8 @@
     <% if user_signed_in? %>
     <header class="bg-white shadow-md fixed top-0 inset-x-0 z-50">
       <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-      <h1 class="text-xl font-bold text-indigo-600">FeulFit</h1>
+      <h1 class="text-xl font-bold text-indigo-600"><%= link_to "FeulFit" , index_home_path %></h1>
+      <%= link_to "Home", index_home_path %>
        <%= link_to "Clients", clients_path,method: :get%> 
        <%= link_to "Products" , products_path, method: :get%>
        <%= link_to "Invoices" , invoices_path,method: :get %>

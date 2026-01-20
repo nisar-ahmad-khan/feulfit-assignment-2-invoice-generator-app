@@ -1,0 +1,84 @@
+<%
+=begin%>
+ <div>
+ <%= link_to "Add New Category" , new_menu_category_path  %>
+
+</div> 
+<%
+=end%>
+
+ <div class="space-y-12">
+
+  <!-- Menu Categories -->
+  <section class="bg-white border rounded-2xl p-8 shadow-sm">
+    <h2 class="text-2xl font-bold text-green-600 mb-6 text-center">
+      Menu Categories
+    </h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <%= link_to "New Menu Category",
+          new_menu_category_path,
+          class: "block text-center bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-lg transition shadow" %>
+
+      <%= link_to "View All Categories",
+          menu_categories_path,
+          class: "block text-center bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold py-3 rounded-lg transition" %>
+    </div>
+  </section>
+
+  <!-- Menu Items -->
+  <section class="bg-white border rounded-2xl p-8 shadow-sm">
+    <h2 class="text-2xl font-bold text-green-600 mb-6 text-center">
+      Menu Items
+    </h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <%= link_to "New Menu Item",
+          new_menu_item_path,
+          class: "block text-center bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-lg transition shadow" %>
+
+      <%= link_to "View All Items",
+          menu_items_path,
+          class: "block text-center bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold py-3 rounded-lg transition" %>
+    </div>
+  </section>
+
+  <!-- Option Groups -->
+  <section class="bg-white border rounded-2xl p-8 shadow-sm">
+    <h2 class="text-2xl font-bold text-green-600 mb-6 text-center">
+      Option Groups
+    </h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <%= link_to "New Option Group",
+          new_option_group_path,
+          class: "block text-center bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-lg transition shadow" %>
+
+      <%= link_to "View All Option Groups",
+          option_groups_path,
+          class: "block text-center bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold py-3 rounded-lg transition" %>
+    </div>
+  </section>
+
+
+  <!-- Option senction -->
+
+    <!-- Option Groups -->
+  <section class="bg-white border rounded-2xl p-8 shadow-sm">
+    <h2 class="text-2xl font-bold text-green-600 mb-6 text-center">
+      Options
+    </h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <%= link_to "New Option",
+          new_option_path,
+          class: "block text-center bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-lg transition shadow" %>
+
+      <%= link_to "View All Options",
+          options_path,
+          class: "block text-center bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold py-3 rounded-lg transition" %>
+    </div>
+  </section>
+
+
+</div>

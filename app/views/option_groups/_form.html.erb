@@ -1,0 +1,42 @@
+<%= form_with(model: option_group, class: "contents") do |form| %>
+  <% if option_group.errors.any? %>
+    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-md mt-3">
+      <h2><%= pluralize(option_group.errors.count, "error") %> prohibited this option_group from being saved:</h2>
+
+      <ul class="list-disc ml-6">
+        <% option_group.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="my-5">
+    <%= form.label :menu_item_id %>
+    <%= form.collection_select :menu_item_id, MenuItem.all ,:id , :name , {prompt:"Select Menu Item"} , class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": option_group.errors[:menu_item_id].none?, "border-red-400 focus:outline-red-600": option_group.errors[:menu_item_id].any?}] %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :name %>
+    <%= form.text_field :name, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": option_group.errors[:name].none?, "border-red-400 focus:outline-red-600": option_group.errors[:name].any?}] %>
+  </div>
+
+  <div class="my-5 flex items-center gap-2">
+    <%= form.label :required %>
+    <%= form.checkbox :required, class: ["block shadow-sm rounded-md border order-first h-5 w-5", {"border-gray-400 focus:outline-blue-600": option_group.errors[:required].none?, "border-red-400 focus:outline-red-600": option_group.errors[:required].any?}] %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :min_selection %>
+    <%= form.number_field :min_selection, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": option_group.errors[:min_selection].none?, "border-red-400 focus:outline-red-600": option_group.errors[:min_selection].any?}] %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :max_selection %>
+    <%= form.number_field :max_selection, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": option_group.errors[:max_selection].none?, "border-red-400 focus:outline-red-600": option_group.errors[:max_selection].any?}] %>
+  </div>
+
+  <div class="inline">
+    <%= form.submit class: "w-full sm:w-auto rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white inline-block font-medium cursor-pointer" %>
+  </div>
+<% end %>
