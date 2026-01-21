@@ -1,4 +1,4 @@
-<%= form_with(model: option, class: "contents") do |form| %>
+<%= form_with(model: option, class: "contents" , id: "option-form") do |form| %>
   <% if option.errors.any? %>
     <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-md mt-3">
       <h2><%= pluralize(option.errors.count, "error") %> prohibited this option from being saved:</h2>
@@ -13,20 +13,63 @@
 
   <div class="my-5">
     <%= form.label :option_group_id %>
-    <%= form.collection_select :option_group_id,OptionGroup.all , :id , :name , {prompt: "Select option group"} ,class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": option.errors[:option_group_id].none?, "border-red-400 focus:outline-red-600": option.errors[:option_group_id].any?}] %>
+    <%= form.collection_select :option_group_id,OptionGroup.all , :id , :name , {prompt: "Select option group"} ,class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": option.errors[:option_group_id].none?, "border-red-400 focus:outline-red-600": option.errors[:option_group_id].any?}],
+    id: "option_group"
+     %>
   </div>
 
   <div class="my-5">
     <%= form.label :name %>
-    <%= form.text_field :name, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": option.errors[:name].none?, "border-red-400 focus:outline-red-600": option.errors[:name].any?}] %>
+    <%= form.text_field :name, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": option.errors[:name].none?, "border-red-400 focus:outline-red-600": option.errors[:name].any?}]  ,
+    id: "name"
+    %>
   </div>
 
   <div class="my-5">
     <%= form.label :price %>
-    <%= form.text_field :price, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": option.errors[:price].none?, "border-red-400 focus:outline-red-600": option.errors[:price].any?}] %>
+    <%= form.text_field :price, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": option.errors[:price].none?, "border-red-400 focus:outline-red-600": option.errors[:price].any?}] ,
+    id: "price"
+    %>
   </div>
 
   <div class="inline">
     <%= form.submit class: "w-full sm:w-auto rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white inline-block font-medium cursor-pointer" %>
   </div>
 <% end %>
+
+
+<script>
+  const protocol = window.location.protocol === "https:" ? "wss" : "ws";
+  const socket = new WebSocket(`${protocol}://${window.location.host}/cable`);
+
+  socket.onopen = () => {
+    socket.send(JSON.stringify({
+      command: "subscribe",
+      identifier: JSON.stringify({ channel: "OptionsChannel" })
+    }));
+  };
+
+  socket.onmessage = (event) => {
+    const response = JSON.parse(event.data);
+
+    if (response.type === "ping" || response.type === "confirm_subscription") return;
+    if (!response.message) return;
+  };
+
+  document.getElementById("option-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    socket.send(JSON.stringify({
+      command: "message",
+      identifier: JSON.stringify({ channel: "OptionsChannel" }),
+      data: JSON.stringify({
+        option_group_id: document.getElementById("option_group").value,
+        name: document.getElementById("name").value,
+        price: document.getElementById("price").value
+      })
+    }));
+
+    this.reset();
+    window.location.href = "/options"
+  });
+</script>

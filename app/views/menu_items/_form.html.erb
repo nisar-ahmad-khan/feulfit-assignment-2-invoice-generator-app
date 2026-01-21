@@ -1,47 +1,88 @@
-<%= form_with(model: menu_item, class: "contents") do |form| %>
-  <% if menu_item.errors.any? %>
-    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-md mt-3">
-      <h2><%= pluralize(menu_item.errors.count, "error") %> prohibited this menu_item from being saved:</h2>
-
-      <ul class="list-disc ml-6">
-        <% menu_item.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
+<%= form_with(model: menu_item, class: "contents", id: "menu-item-form") do |form| %>
 
   <div class="my-5">
     <%= form.label :menu_category_id %>
-    <%= form.collection_select :menu_category_id,MenuCategory.all , :id , :name , {prompt: "Categories"}, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": menu_item.errors[:menu_category_id].none?, "border-red-400 focus:outline-red-600": menu_item.errors[:menu_category_id].any?}] %>
+    <%= form.collection_select :menu_category_id, MenuCategory.all, :id, :name,
+      { prompt: "Categories" },
+      id: "menu_item_menu_category_id",
+      class: "block shadow-sm rounded-md border px-3 py-2 mt-2 w-full" %>
   </div>
 
   <div class="my-5">
     <%= form.label :name %>
-    <%= form.text_field :name, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": menu_item.errors[:name].none?, "border-red-400 focus:outline-red-600": menu_item.errors[:name].any?}] %>
+    <%= form.text_field :name, id: "menu_item_name",
+      class: "block shadow-sm rounded-md border px-3 py-2 mt-2 w-full" %>
   </div>
 
   <div class="my-5">
     <%= form.label :description %>
-    <%= form.textarea :description, rows: 4, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": menu_item.errors[:description].none?, "border-red-400 focus:outline-red-600": menu_item.errors[:description].any?}] %>
+    <%= form.textarea :description, rows: 4, id: "menu_item_description",
+      class: "block shadow-sm rounded-md border px-3 py-2 mt-2 w-full" %>
   </div>
 
   <div class="my-5">
     <%= form.label :image_url %>
-    <%= form.text_field :image_url, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": menu_item.errors[:image_url].none?, "border-red-400 focus:outline-red-600": menu_item.errors[:image_url].any?}] %>
+    <%= form.text_field :image_url, id: "menu_item_image_url",
+      class: "block shadow-sm rounded-md border px-3 py-2 mt-2 w-full" %>
   </div>
 
   <div class="my-5">
     <%= form.label :price %>
-    <%= form.text_field :price, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": menu_item.errors[:price].none?, "border-red-400 focus:outline-red-600": menu_item.errors[:price].any?}] %>
+    <%= form.text_field :price, id: "menu_item_price",
+      class: "block shadow-sm rounded-md border px-3 py-2 mt-2 w-full" %>
   </div>
 
   <div class="my-5 flex items-center gap-2">
     <%= form.label :available %>
-    <%= form.checkbox :available, class: ["block shadow-sm rounded-md border order-first h-5 w-5", {"border-gray-400 focus:outline-blue-600": menu_item.errors[:available].none?, "border-red-400 focus:outline-red-600": menu_item.errors[:available].any?}] %>
+    <%= form.checkbox :available, id: "menu_item_available",
+      class: "h-5 w-5" %>
   </div>
 
   <div class="inline">
-    <%= form.submit class: "w-full sm:w-auto rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white inline-block font-medium cursor-pointer" %>
+    <%= form.submit "Create",
+      class: "rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-medium" %>
   </div>
+
 <% end %>
+
+<div id="menu-items-box" class="mt-6 space-y-2"></div>
+
+
+<script>
+  const protocol = window.location.protocol === "https:" ? "wss" : "ws";
+  const socket = new WebSocket(`${protocol}://${window.location.host}/cable`);
+
+  socket.onopen = () => {
+    socket.send(JSON.stringify({
+      command: "subscribe",
+      identifier: JSON.stringify({ channel: "MenuitemChannel" })
+    }));
+  };
+
+  socket.onmessage = (event) => {
+    const response = JSON.parse(event.data);
+
+    if (response.type === "ping" || response.type === "confirm_subscription") return;
+    if (!response.message) return;
+  };
+
+  document.getElementById("menu-item-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    socket.send(JSON.stringify({
+      command: "message",
+      identifier: JSON.stringify({ channel: "MenuitemChannel" }),
+      data: JSON.stringify({
+        menu_category_id: document.getElementById("menu_item_menu_category_id").value,
+        name: document.getElementById("menu_item_name").value,
+        description: document.getElementById("menu_item_description").value,
+        image_url: document.getElementById("menu_item_image_url").value,
+        price: document.getElementById("menu_item_price").value,
+        available: document.getElementById("menu_item_available").checked
+      })
+    }));
+
+    this.reset();
+    window.location.href = "/menu_items"
+  });
+</script>

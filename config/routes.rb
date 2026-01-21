@@ -12,8 +12,7 @@ Rails.application.routes.draw do
   
 devise_for :users
 
-
-
+mount ActionCable.server => "/cable"
   get "/" ,to: "home#index" ,as: :index_home
  
 
