@@ -1,6 +1,8 @@
 # require 'sidekiq/web'
 # require 'sidekiq'
 Rails.application.routes.draw do
+  resources :carts
+  resources :client_orders
   resources :orders
   resources :options
   resources :option_groups

@@ -1,0 +1,57 @@
+<%= form_with(model: client_order, class: "contents") do |form| %>
+  <% if client_order.errors.any? %>
+    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-md mt-3">
+      <h2><%= pluralize(client_order.errors.count, "error") %> prohibited this client_order from being saved:</h2>
+
+      <ul class="list-disc ml-6">
+        <% client_order.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="my-5">
+    <%= form.label :client_id %>
+    <%= form.text_field :client_id, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": client_order.errors[:client_id].none?, "border-red-400 focus:outline-red-600": client_order.errors[:client_id].any?}] %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :delivary_address %>
+    <%= form.textarea :delivary_address, rows: 4, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": client_order.errors[:delivary_address].none?, "border-red-400 focus:outline-red-600": client_order.errors[:delivary_address].any?}] %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :delivary_date %>
+    <%= form.date_field :delivary_date, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": client_order.errors[:delivary_date].none?, "border-red-400 focus:outline-red-600": client_order.errors[:delivary_date].any?}] %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :delivary_time %>
+    <%= form.time_field :delivary_time, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": client_order.errors[:delivary_time].none?, "border-red-400 focus:outline-red-600": client_order.errors[:delivary_time].any?}] %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :client_name %>
+    <%= form.text_field :client_name, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": client_order.errors[:client_name].none?, "border-red-400 focus:outline-red-600": client_order.errors[:client_name].any?}] %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :phone_number %>
+    <%= form.number_field :phone_number, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": client_order.errors[:phone_number].none?, "border-red-400 focus:outline-red-600": client_order.errors[:phone_number].any?}] %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :status %>
+    <%= form.text_field :status, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": client_order.errors[:status].none?, "border-red-400 focus:outline-red-600": client_order.errors[:status].any?}] %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :total_price %>
+    <%= form.text_field :total_price, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": client_order.errors[:total_price].none?, "border-red-400 focus:outline-red-600": client_order.errors[:total_price].any?}] %>
+  </div>
+
+  <div class="inline">
+    <%= form.submit class: "w-full sm:w-auto rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white inline-block font-medium cursor-pointer" %>
+  </div>
+<% end %>

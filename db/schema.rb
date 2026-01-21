@@ -10,7 +10,34 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_20_074055) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_21_142807) do
+  create_table "carts", force: :cascade do |t|
+    t.integer "Client_id", null: false
+    t.datetime "created_at", null: false
+    t.integer "menu_item_id", null: false
+    t.integer "qty"
+    t.datetime "updated_at", null: false
+    t.index ["Client_id"], name: "index_carts_on_Client_id"
+    t.index ["menu_item_id"], name: "index_carts_on_menu_item_id"
+  end
+
+  create_table "client_orders", force: :cascade do |t|
+    t.integer "client_id", null: false
+    t.string "client_name"
+    t.datetime "created_at", null: false
+    t.text "delivary_address"
+    t.date "delivary_date"
+    t.time "delivary_time"
+    t.integer "phone_number"
+    t.integer "product_id", null: false
+    t.integer "qty"
+    t.string "status"
+    t.decimal "total_price"
+    t.datetime "updated_at", null: false
+    t.index ["client_id"], name: "index_client_orders_on_client_id"
+    t.index ["product_id"], name: "index_client_orders_on_product_id"
+  end
+
   create_table "clients", force: :cascade do |t|
     t.text "address"
     t.datetime "created_at", null: false
@@ -104,11 +131,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_20_074055) do
     t.date "delivary_date"
     t.time "delivary_time"
     t.text "delivery_address"
+    t.integer "menu_item_id", null: false
     t.integer "phone_number"
+    t.integer "qty"
     t.string "status"
     t.decimal "total_price"
     t.datetime "updated_at", null: false
     t.index ["client_id"], name: "index_orders_on_client_id"
+    t.index ["menu_item_id"], name: "index_orders_on_menu_item_id"
   end
 
   create_table "products", force: :cascade do |t|
@@ -132,6 +162,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_20_074055) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "carts", "Clients"
+  add_foreign_key "carts", "menu_items"
+  add_foreign_key "client_orders", "clients"
+  add_foreign_key "client_orders", "products"
   add_foreign_key "clients", "users"
   add_foreign_key "invoices", "clients"
   add_foreign_key "invoices", "users"
@@ -141,5 +175,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_20_074055) do
   add_foreign_key "option_groups", "menu_items"
   add_foreign_key "options", "option_groups"
   add_foreign_key "orders", "clients"
+  add_foreign_key "orders", "menu_items"
   add_foreign_key "products", "users"
 end
