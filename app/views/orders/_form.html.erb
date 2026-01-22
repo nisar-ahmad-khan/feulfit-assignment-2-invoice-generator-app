@@ -31,7 +31,6 @@
     <%= form.label :qty %>
     <%= form.number_field :qty,
         value: @cart&.qty || order.qty,
-        disabled: true,
         class: "block shadow-sm rounded-md border px-3 py-2 mt-2 w-full" %>
   </div>
 

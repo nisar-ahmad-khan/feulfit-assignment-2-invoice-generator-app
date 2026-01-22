@@ -15,7 +15,7 @@ before_save :set_qty , :cal_total , :set_name,:set_number
   end
 
   def set_qty
-    self.qty = 1 if qty.nil?  
+    self.qty = 1 if qty.nil?
   end
 
   def set_status
