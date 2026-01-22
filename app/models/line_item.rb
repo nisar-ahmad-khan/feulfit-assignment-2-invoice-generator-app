@@ -1,7 +1,7 @@
 class LineItem < ApplicationRecord
   belongs_to :invoice
   belongs_to :product
-  has_many :client_orders
+  has_many :client_orders, dependent: :destroy
 
   validates :quantity, :unit_price, presence: true
 
