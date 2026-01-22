@@ -1,83 +1,101 @@
-<div id="<%= dom_id order %>" class="max-w-3xl mx-auto bg-white shadow-lg rounded-xl p-6 space-y-6">
+<div id="<%= dom_id order %>" style="
+  max-width: 800px;
+  margin: 2rem auto;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  padding: 24px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #1f2937;
+  line-height: 1.6;
+">
 
   <!-- Header -->
-  <div class="border-b pb-4">
-    <h2 class="text-2xl font-bold text-gray-800">Order Summary</h2>
-    <p class="text-sm text-gray-500">
+  <div style="border-bottom: 1px solid #e5e7eb; padding-bottom: 16px; margin-bottom: 16px;">
+    <h2 style="font-size: 24px; font-weight: 700; margin: 0 0 4px 0;">Order Summary</h2>
+    <p style="font-size: 14px; color: #6b7280; margin: 0;">
       Order ##<%= order.id %> • <%= order.created_at.strftime("%d %b %Y, %I:%M %p") %>
     </p>
   </div>
 
   <!-- Customer Info -->
-  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-    <div>
-      <p class="text-sm text-gray-500">Customer Name</p>
-      <p class="font-medium text-gray-800"><%= order.customer_name %></p>
+  <div style="display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 16px;">
+    <div style="flex: 1 1 200px;">
+      <p style="font-size: 12px; color: #6b7280; margin: 0;">Customer Name</p>
+      <p style="font-weight: 500; margin: 4px 0 0 0;"><%= order.customer_name %></p>
     </div>
 
-    <div>
-      <p class="text-sm text-gray-500">Phone Number</p>
-      <p class="font-medium text-gray-800"><%= order.phone_number %></p>
+    <div style="flex: 1 1 200px;">
+      <p style="font-size: 12px; color: #6b7280; margin: 0;">Phone Number</p>
+      <p style="font-weight: 500; margin: 4px 0 0 0;">
+        <%= number_to_phone(order.phone_number, delimiter: " ", country_code: 92) %>
+      </p>
     </div>
   </div>
 
   <!-- Delivery Info -->
-  <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-    <div>
-      <p class="text-sm text-gray-500">Delivery Date</p>
-      <p class="font-medium text-gray-800"><%= order.delivary_date %></p>
+  <div style="display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 16px;">
+    <div style="flex: 1 1 150px;">
+      <p style="font-size: 12px; color: #6b7280; margin: 0;">Delivery Date</p>
+      <p style="font-weight: 500; margin: 4px 0 0 0;"><%= order.delivary_date %></p>
     </div>
 
-    <div>
-      <p class="text-sm text-gray-500">Delivery Time</p>
-      <p class="font-medium text-gray-800">
+    <div style="flex: 1 1 150px;">
+      <p style="font-size: 12px; color: #6b7280; margin: 0;">Delivery Time</p>
+      <p style="font-weight: 500; margin: 4px 0 0 0;">
         <%= order.delivary_time.strftime("%I:%M %p") if order.delivary_time %>
       </p>
     </div>
 
-    <div>
-      <p class="text-sm text-gray-500">Status</p>
-      <span class="inline-block px-3 py-1 rounded-full text-sm font-medium
-        <%= order.status == "pending" ? "bg-yellow-100 text-yellow-700" : "bg-green-100 text-green-700" %>">
+    <div style="flex: 1 1 150px;">
+      <p style="font-size: 12px; color: #6b7280; margin: 0;">Status</p>
+      <span style="
+        display: inline-block;
+        padding: 4px 12px;
+        border-radius: 9999px;
+        font-size: 12px;
+        font-weight: 500;
+        color: <%= order.status == 'pending' ? '#92400e' : '#166534' %>;
+        background-color: <%= order.status == 'pending' ? '#fef3c7' : '#dcfce7' %>;
+        margin-top: 4px;
+      ">
         <%= order.status.capitalize %>
       </span>
     </div>
   </div>
 
-  <!-- Address -->
-  <div>
-    <p class="text-sm text-gray-500">Delivery Address</p>
-    <p class="font-medium text-gray-800"><%= order.delivery_address %></p>
+  <!-- Delivery Address -->
+  <div style="margin-bottom: 16px;">
+    <p style="font-size: 12px; color: #6b7280; margin: 0;">Delivery Address</p>
+    <p style="font-weight: 500; margin: 4px 0 0 0;"><%= order.delivery_address %></p>
   </div>
 
   <!-- Item Details -->
-  <div class="border-t pt-4">
-    <h3 class="text-lg font-semibold text-gray-800 mb-3">Order Details</h3>
+  <div style="border-top: 1px solid #e5e7eb; padding-top: 16px; margin-top: 16px;">
+    <h3 style="font-size: 18px; font-weight: 600; margin: 0 0 12px 0;">Order Details</h3>
 
-    <div class="grid grid-cols-3 gap-4 text-sm">
-      <div class="font-medium text-gray-500">Menu Item</div>
-      <div class="font-medium text-gray-500">Quantity</div>
-      <div class="font-medium text-gray-500 text-right">Price</div>
+    <div style="
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 12px 24px;
+      font-size: 14px;
+      color: #6b7280;
+      font-weight: 500;
+      margin-bottom: 8px;
+    ">
+      <div>Menu Item</div>
+      <div>Quantity</div>
+      <div style="text-align: right;">Price</div>
 
-      <div class="text-gray-800">
-        <%= order.menu_item&.name %>
-      </div>
-
-      <div class="text-gray-800">
-        <%= order.qty %>
-      </div>
-
-      <div class="text-gray-800 text-right">
-        Rs <%= order.total_price %>
-      </div>
+      <div style="color: #1f2937; font-weight: 400;"><%= order.menu_item&.name || 'N/A' %></div>
+      <div style="color: #1f2937; font-weight: 400;"><%= order.qty %></div>
+      <div style="color: #1f2937; font-weight: 400; text-align: right;">Rs <%= order.total_price %></div>
     </div>
   </div>
 
   <!-- Footer -->
-  <div class="border-t pt-4 flex justify-between items-center">
-    <p class="text-lg font-semibold text-gray-800">
-      Total: Rs <%= order.total_price %>
-    </p>
+  <div style="border-top: 1px solid #e5e7eb; padding-top: 16px; margin-top: 16px; display: flex; justify-content: flex-end; font-size: 16px; font-weight: 600; color: #1f2937;">
+    Total: Rs <%= order.total_price %>
   </div>
 
 </div>
