@@ -17,7 +17,7 @@
 
     <div style="flex: 1 1 45%;">
       <p style="font-size: 0.875rem; color: #718096; margin: 0;">Phone Number</p>
-      <p style="font-weight: 600; font-size: 1rem; margin: 4px 0 0 0;"><%= @order.phone_number %></p>
+      <p style="font-weight: 600; font-size: 1rem; margin: 4px 0 0 0;"><%= number_to_phone(@order.phone_number , delimiter: " " , country_code: 92) %></p>
     </div>
   </div>
 
@@ -64,7 +64,7 @@
     <div style="display: flex; justify-content: space-between; font-size: 0.95rem; color: #1a202c; margin-bottom: 4px;">
       <div style="flex: 1;"><%= @order.menu_item.name if @order.menu_item %></div>
       <div style="flex: 1;"><%= @order.qty %></div>
-      <div style="flex: 1; text-align: right;">Rs <%= @order.total_price %></div>
+      <div style="flex: 1; text-align: right;">Rs <%= number_with_delimiter(@order.total_price) %></div>
     </div>
   </div>
 
