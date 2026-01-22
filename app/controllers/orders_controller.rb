@@ -1,70 +1,66 @@
 class OrdersController < ApplicationController
-  before_action :set_order, only: %i[ show edit update destroy ]
+  before_action :set_cart, only: [ :new, :create]
+  before_action :set_order, only: [ :show, :edit, :update]
 
-  # GET /orders or /orders.json
   def index
-    @orders = Order.all
+    @orders = Order.all.order(created_at: :desc)
   end
 
-  # GET /orders/1 or /orders/1.json
-  def show
-  end
-
-  # GET /orders/new
   def new
     @order = Order.new
+    if @cart
+      @order.client_id     = @cart.client_id
+      @order.menu_item_id  = @cart.menu_item_id
+      @order.qty           = @cart.qty
+      @order.customer_name = @cart.client.name
+    end
   end
 
-  # GET /orders/1/edit
+  def create
+    @order = Order.new(order_params)
+    if @order.save
+      @cart&.destroy
+      redirect_to @order, notice: "Order created successfully"
+    else
+      render :new, status: :unprocessable_entity
+    end
+  end
+
+  def show
+    # @order is already set by set_order
+  end
+
   def edit
   end
 
-  # POST /orders or /orders.json
-  def create
-    @order = Order.new(order_params)
-
-    respond_to do |format|
-      if @order.save
-        format.html { redirect_to @order, notice: "Order was successfully created." }
-        format.json { render :show, status: :created, location: @order }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @order.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # PATCH/PUT /orders/1 or /orders/1.json
   def update
-    respond_to do |format|
-      if @order.update(order_params)
-        format.html { redirect_to @order, notice: "Order was successfully updated.", status: :see_other }
-        format.json { render :show, status: :ok, location: @order }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @order.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # DELETE /orders/1 or /orders/1.json
-  def destroy
-    @order.destroy!
-
-    respond_to do |format|
-      format.html { redirect_to orders_path, notice: "Order was successfully destroyed.", status: :see_other }
-      format.json { head :no_content }
+    if @order.update(order_params)
+      redirect_to @order, notice: "Order updated successfully"
+    else
+      render :edit, status: :unprocessable_entity
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_order
-      @order = Order.find(params.expect(:id))
-    end
 
-    # Only allow a list of trusted parameters through.
-    def order_params
-      params.expect(order: [ :client_id, :menu_item_id, :delivery_address, :delivary_date, :delivary_time, :customer_name, :phone_number, :status, :total_price , :qty  ])
-    end
+  def set_cart
+    @cart = Cart.find_by(id: params[:cart_id])
+  end
+
+  def set_order
+    @order = Order.find(params[:id])
+  end
+
+  def order_params
+    params.require(:order).permit(
+      :client_id,
+      :menu_item_id,
+      :qty,
+      :customer_name,
+      :phone_number,
+      :delivery_address,
+      :delivary_date,
+      :delivary_time
+    )
+  end
 end

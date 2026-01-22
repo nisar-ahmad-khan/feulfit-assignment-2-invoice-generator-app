@@ -1,57 +1,76 @@
 <%= form_with(model: order, class: "contents") do |form| %>
-  <% if order.errors.any? %>
-    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-md mt-3">
-      <h2><%= pluralize(order.errors.count, "error") %> prohibited this order from being saved:</h2>
 
-      <ul class="list-disc ml-6">
-        <% order.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
-
+  <!-- Client -->
   <div class="my-5">
-    <%= form.label :client_id %>
-    <%= form.collection_select :client_id,Client.all ,:id,:name,{prompt: "Select a Client"} , class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": order.errors[:client_id].none?, "border-red-400 focus:outline-red-600": order.errors[:client_id].any?}] %>
+    <%= form.label :client_id, "Customer" %>
+
+    <%= text_field_tag :client_name,
+        @cart&.client&.name || order.customer_name,
+        disabled: true,
+        class: "block shadow-sm rounded-md border px-3 py-2 mt-2 w-full bg-gray-100" %>
+
+    <%= form.hidden_field :client_id,
+        value: @cart&.client_id || order.client_id %>
   </div>
 
+  <!-- Menu item -->
   <div class="my-5">
-    <%= form.label :delivary_address %>
-    <%= form.textarea :delivary_address, rows: 4, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": order.errors[:delivary_address].none?, "border-red-400 focus:outline-red-600": order.errors[:delivary_address].any?}] %>
+    <%= form.label :menu_item_id, "Menu Item" %>
+
+    <%= text_field_tag :menu_item_name,
+        @cart&.menu_item&.name || order.menu_item&.name,
+        disabled: true,
+        class: "block shadow-sm rounded-md border px-3 py-2 mt-2 w-full bg-gray-100" %>
+
+    <%= form.hidden_field :menu_item_id,
+        value: @cart&.menu_item_id || order.menu_item_id %>
   </div>
 
+  <!-- Quantity -->
   <div class="my-5">
-    <%= form.label :delivary_date %>
-    <%= form.date_field :delivary_date, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": order.errors[:delivary_date].none?, "border-red-400 focus:outline-red-600": order.errors[:delivary_date].any?}] %>
+    <%= form.label :qty %>
+    <%= form.number_field :qty,
+        value: @cart&.qty || order.qty,
+        disabled: true,
+        class: "block shadow-sm rounded-md border px-3 py-2 mt-2 w-full" %>
   </div>
 
-  <div class="my-5">
-    <%= form.label :delivary_time %> 
-    <%= form.time_field :delivary_time, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": order.errors[:delivary_time].none?, "border-red-400 focus:outline-red-600": order.errors[:delivary_time].any?}] %>
-  </div>
-
-  <div class="my-5">
-    <%= form.label :customer_name %>
-    <%= form.text_field :customer_name, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": order.errors[:customer_name].none?, "border-red-400 focus:outline-red-600": order.errors[:customer_name].any?}] %>
-  </div>
 
   <div class="my-5">
     <%= form.label :phone_number %>
-    <%= form.number_field :phone_number, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": order.errors[:phone_number].none?, "border-red-400 focus:outline-red-600": order.errors[:phone_number].any?}] %>
+    <%= form.number_field :phone_number,
+    value: @cart&.client&.phone,
+    placeholder: "Optional..",
+        class: "block shadow-sm rounded-md border px-3 py-2 mt-2 w-full" %>
   </div>
 
+  <!-- Delivery address -->
   <div class="my-5">
-    <%= form.label :menu_item %>
-    <%= form.collection_select :menu_item_id, MenuItem.all,:id,:name, {prompt: "Select a product"} ,  class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": order.errors[:menu_item_id].none?, "border-red-400 focus:outline-red-600": order.errors[:menu_item_id].any?}] %>
+    <%= form.label :delivery_address %>
+    <%= form.textarea :delivery_address,
+    value: @cart&.client&.address,
+    placeholder: "Optional...",
+        rows: 3,
+        class: "block shadow-sm rounded-md border px-3 py-2 mt-2 w-full" %>
   </div>
 
+  <!-- Delivery date -->
   <div class="my-5">
-    <%= form.label :qty %>
-    <%= form.number_field :qty,  class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": order.errors[:qty].none?, "border-red-400 focus:outline-red-600": order.errors[:qty].any?}] %>
+    <%= form.label :delivary_date %>
+    <%= form.date_field :delivary_date,
+        class: "block shadow-sm rounded-md border px-3 py-2 mt-2 w-full" %>
+  </div>
+
+  <!-- Delivery time -->
+  <div class="my-5">
+    <%= form.label :delivary_time %>
+    <%= form.time_field :delivary_time,
+        class: "block shadow-sm rounded-md border px-3 py-2 mt-2 w-full" %>
   </div>
 
   <div class="inline">
-    <%= form.submit class: "w-full sm:w-auto rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white inline-block font-medium cursor-pointer" %>
+    <%= form.submit "Place Order",
+        class: "w-full sm:w-auto rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-medium" %>
   </div>
+
 <% end %>

@@ -24,6 +24,7 @@
        <%= link_to "Invoices" , invoices_path,method: :get %>
        <%= link_to "New Invoice" , new_invoice_path , method: :get %>
        <%=link_to "Client Side", carts_path %>
+       <%=link_to "Cart", carts_path,method: :get %>
        <% end %>
         <div class="flex items-center gap-4">
           <% if user_signed_in? %>

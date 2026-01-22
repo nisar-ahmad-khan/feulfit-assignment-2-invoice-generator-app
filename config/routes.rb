@@ -1,9 +1,22 @@
 # require 'sidekiq/web'
 # require 'sidekiq'
 Rails.application.routes.draw do
+
+
+#   resources :orders, only: [:new, :create, :show , :edit , :update] do
+#   get 'new/:cart_id', to: 'orders#new', on: :collection, as: 'new_with_cart'
+# end
+
+
+resources :orders, only: [:index,:new, :create, :show, :edit, :update] do
+  # Optional: Pre-fill order from cart
+  get 'new/:cart_id', to: 'orders#new', on: :collection, as: 'new_with_cart'
+end
+
+
   resources :carts
   resources :client_orders
-  resources :orders
+  # resources :orders
   resources :options
   resources :option_groups
   resources :menu_items

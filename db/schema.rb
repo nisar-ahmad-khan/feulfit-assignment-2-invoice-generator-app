@@ -10,14 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_21_142807) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_21_153642) do
   create_table "carts", force: :cascade do |t|
-    t.integer "Client_id", null: false
+    t.integer "client_id", null: false
     t.datetime "created_at", null: false
     t.integer "menu_item_id", null: false
     t.integer "qty"
     t.datetime "updated_at", null: false
-    t.index ["Client_id"], name: "index_carts_on_Client_id"
+    t.index ["client_id"], name: "index_carts_on_client_id"
     t.index ["menu_item_id"], name: "index_carts_on_menu_item_id"
   end
 
@@ -162,7 +162,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_21_142807) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "carts", "Clients"
+  add_foreign_key "carts", "Clients", column: "client_id"
   add_foreign_key "carts", "menu_items"
   add_foreign_key "client_orders", "clients"
   add_foreign_key "client_orders", "products"

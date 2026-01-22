@@ -6,8 +6,8 @@ validates :client_id, presence: true
 validates :menu_item_id, presence:true , numericality: true
 validates :delivary_date, presence: true
 validates :delivary_time, presence: true
-before_validation  :set_address , :set_status , :set_number
-before_save :set_qty , :cal_total , :set_name
+before_validation  :set_address , :set_status 
+before_save :set_qty , :cal_total , :set_name,:set_number
   private
 
   def set_address

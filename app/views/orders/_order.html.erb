@@ -1,34 +1,83 @@
-<div id="<%= dom_id order %>" class="w-full sm:w-auto my-5 space-y-5">
-  <div>
-    <strong class="block font-medium mb-1">Client:</strong>
-    <%= order.client_id %>
+<div id="<%= dom_id order %>" class="max-w-3xl mx-auto bg-white shadow-lg rounded-xl p-6 space-y-6">
+
+  <!-- Header -->
+  <div class="border-b pb-4">
+    <h2 class="text-2xl font-bold text-gray-800">Order Summary</h2>
+    <p class="text-sm text-gray-500">
+      Order ##<%= order.id %> • <%= order.created_at.strftime("%d %b %Y, %I:%M %p") %>
+    </p>
   </div>
-  <div>
-    <strong class="block font-medium mb-1">Delivery address:</strong>
-    <%= order.delivery_address %>
+
+  <!-- Customer Info -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <div>
+      <p class="text-sm text-gray-500">Customer Name</p>
+      <p class="font-medium text-gray-800"><%= order.customer_name %></p>
+    </div>
+
+    <div>
+      <p class="text-sm text-gray-500">Phone Number</p>
+      <p class="font-medium text-gray-800"><%= order.phone_number %></p>
+    </div>
   </div>
-  <div>
-    <strong class="block font-medium mb-1">Delivary date:</strong>
-    <%= order.delivary_date %>
+
+  <!-- Delivery Info -->
+  <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+    <div>
+      <p class="text-sm text-gray-500">Delivery Date</p>
+      <p class="font-medium text-gray-800"><%= order.delivary_date %></p>
+    </div>
+
+    <div>
+      <p class="text-sm text-gray-500">Delivery Time</p>
+      <p class="font-medium text-gray-800">
+        <%= order.delivary_time.strftime("%I:%M %p") if order.delivary_time %>
+      </p>
+    </div>
+
+    <div>
+      <p class="text-sm text-gray-500">Status</p>
+      <span class="inline-block px-3 py-1 rounded-full text-sm font-medium
+        <%= order.status == "pending" ? "bg-yellow-100 text-yellow-700" : "bg-green-100 text-green-700" %>">
+        <%= order.status.capitalize %>
+      </span>
+    </div>
   </div>
+
+  <!-- Address -->
   <div>
-    <strong class="block font-medium mb-1">Delivary time:</strong>
-    <%= order.delivary_time %>
+    <p class="text-sm text-gray-500">Delivery Address</p>
+    <p class="font-medium text-gray-800"><%= order.delivery_address %></p>
   </div>
-  <div>
-    <strong class="block font-medium mb-1">Customer name:</strong>
-    <%= order.customer_name %>
+
+  <!-- Item Details -->
+  <div class="border-t pt-4">
+    <h3 class="text-lg font-semibold text-gray-800 mb-3">Order Details</h3>
+
+    <div class="grid grid-cols-3 gap-4 text-sm">
+      <div class="font-medium text-gray-500">Menu Item</div>
+      <div class="font-medium text-gray-500">Quantity</div>
+      <div class="font-medium text-gray-500 text-right">Price</div>
+
+      <div class="text-gray-800">
+        <%= order.menu_item&.name %>
+      </div>
+
+      <div class="text-gray-800">
+        <%= order.qty %>
+      </div>
+
+      <div class="text-gray-800 text-right">
+        Rs <%= order.total_price %>
+      </div>
+    </div>
   </div>
-  <div>
-    <strong class="block font-medium mb-1">Phone number:</strong>
-    <%= order.phone_number %>
+
+  <!-- Footer -->
+  <div class="border-t pt-4 flex justify-between items-center">
+    <p class="text-lg font-semibold text-gray-800">
+      Total: Rs <%= order.total_price %>
+    </p>
   </div>
-  <div>
-    <strong class="block font-medium mb-1">Status:</strong>
-    <%= order.status %>
-  </div>
-  <div>
-    <strong class="block font-medium mb-1">Total price:</strong>
-    <%= order.total_price %>
-  </div>
+
 </div>

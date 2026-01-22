@@ -1,15 +1,77 @@
-<% content_for :title, "Showing order" %>
+<div style="max-width: 800px; margin: 40px auto; background-color: #ffffff; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-radius: 12px; padding: 24px; font-family: Arial, sans-serif; line-height: 1.6; color: #1a202c;">
 
-<div class="md:w-2/3 w-full">
-  <% if notice.present? %>
-    <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-md inline-block" id="notice"><%= notice %></p>
-  <% end %>
+  <!-- Header -->
+  <div style="border-bottom: 1px solid #e2e8f0; padding-bottom: 16px; margin-bottom: 16px;">
+    <h2 style="font-size: 1.75rem; font-weight: bold; margin: 0;">Order Summary</h2>
+    <p style="font-size: 0.875rem; color: #718096; margin-top: 4px;">
+      Order ##<%= @order.id %> • <%= @order.created_at.strftime("%d %b %Y, %I:%M %p") %>
+    </p>
+  </div>
 
-  <h1 class="font-bold text-4xl">Showing order</h1>
+  <!-- Customer Info -->
+  <div style="display: flex; flex-wrap: wrap; gap: 20px; margin-bottom: 16px;">
+    <div style="flex: 1 1 45%;">
+      <p style="font-size: 0.875rem; color: #718096; margin: 0;">Customer Name</p>
+      <p style="font-weight: 600; font-size: 1rem; margin: 4px 0 0 0;"><%= @order.customer_name %></p>
+    </div>
 
-  <%= render @order %>
+    <div style="flex: 1 1 45%;">
+      <p style="font-size: 0.875rem; color: #718096; margin: 0;">Phone Number</p>
+      <p style="font-weight: 600; font-size: 1rem; margin: 4px 0 0 0;"><%= @order.phone_number %></p>
+    </div>
+  </div>
 
-  <%= link_to "Edit this order", edit_order_path(@order), class: "w-full sm:w-auto text-center rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
-  <%= link_to "Back to orders", orders_path, class: "w-full sm:w-auto text-center mt-2 sm:mt-0 sm:ml-2 rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
-  <%= button_to "Destroy this order", @order, method: :delete, form_class: "sm:inline-block mt-2 sm:mt-0 sm:ml-2", class: "w-full rounded-md px-3.5 py-2.5 text-white bg-red-600 hover:bg-red-500 font-medium cursor-pointer", data: { turbo_confirm: "Are you sure?" } %>
+  <!-- Delivery Info -->
+  <div style="display: flex; flex-wrap: wrap; gap: 20px; margin-bottom: 16px;">
+    <div style="flex: 1 1 30%;">
+      <p style="font-size: 0.875rem; color: #718096; margin: 0;">Delivery Date</p>
+      <p style="font-weight: 600; font-size: 1rem; margin: 4px 0 0 0;"><%= @order.delivary_date %></p>
+    </div>
+
+    <div style="flex: 1 1 30%;">
+      <p style="font-size: 0.875rem; color: #718096; margin: 0;">Delivery Time</p>
+      <p style="font-weight: 600; font-size: 1rem; margin: 4px 0 0 0;">
+        <%= @order.delivary_time.strftime("%I:%M %p") if @order.delivary_time %>
+      </p>
+    </div>
+
+    <div style="flex: 1 1 30%;">
+      <p style="font-size: 0.875rem; color: #718096; margin: 0;">Status</p>
+      <span style="display: inline-block; padding: 4px 10px; border-radius: 9999px; font-size: 0.875rem; font-weight: 600; 
+        background-color: <%= @order.status == "pending" ? "#fefcbf" : "#c6f6d5" %>; 
+        color: <%= @order.status == "pending" ? "#d69e2e" : "#2f855a" %>;">
+        <%= @order.status.capitalize %>
+      </span>
+    </div>
+  </div>
+
+  <!-- Address -->
+  <div style="margin-bottom: 16px;">
+    <p style="font-size: 0.875rem; color: #718096; margin: 0;">Delivery Address</p>
+    <p style="font-weight: 600; font-size: 1rem; margin: 4px 0 0 0;"><%= @order.delivery_address %></p>
+  </div>
+
+  <!-- Item Details -->
+  <div style="border-top: 1px solid #e2e8f0; padding-top: 16px; margin-top: 16px;">
+    <h3 style="font-size: 1.125rem; font-weight: 600; margin-bottom: 12px;">Order Details</h3>
+
+    <div style="display: flex; justify-content: space-between; font-size: 0.875rem; font-weight: 600; color: #718096; margin-bottom: 4px;">
+      <div style="flex: 1;">Menu Item</div>
+      <div style="flex: 1;">Quantity</div>
+      <div style="flex: 1; text-align: right;">Price</div>
+    </div>
+
+    <div style="display: flex; justify-content: space-between; font-size: 0.95rem; color: #1a202c; margin-bottom: 4px;">
+      <div style="flex: 1;"><%= @order.menu_item.name if @order.menu_item %></div>
+      <div style="flex: 1;"><%= @order.qty %></div>
+      <div style="flex: 1; text-align: right;">Rs <%= @order.total_price %></div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div style="border-top: 1px solid #e2e8f0; padding-top: 16px; margin-top: 16px; display: flex; justify-content: space-between; align-items: center;">
+    <p style="font-size: 1.125rem; font-weight: 600; color: #1a202c;">Total: Rs <%= @order.total_price %></p>
+    <%= link_to "Back to Cart", carts_path, style: "padding: 8px 16px; background-color: #3182ce; color: #ffffff; text-decoration: none; border-radius: 6px; font-weight: 600; transition: background-color 0.2s;" %>
+  </div>
+
 </div>
