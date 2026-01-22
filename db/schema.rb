@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_22_102948) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_22_104710) do
   create_table "carts", force: :cascade do |t|
     t.integer "client_id", null: false
     t.datetime "created_at", null: false
@@ -132,7 +132,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_22_102948) do
     t.time "delivary_time"
     t.text "delivery_address"
     t.integer "menu_item_id", null: false
-    t.integer "phone_number"
+    t.string "phone_number"
     t.integer "qty"
     t.string "status"
     t.decimal "total_price"
