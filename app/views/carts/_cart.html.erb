@@ -4,7 +4,7 @@
     <%= cart.client.name %>
   </div>
   <div>
-    <%= image_tag cart.menu_item.image_url , width: 200 , class: "rounded "%>
+    <%= image_tag cart.menu_item.image_url , width: 200 , class: "rounded ",loading: "lazy" if cart.menu_item.image_url.present?%>
   </div>
   <div>
     <strong class="block font-medium mb-1">Menu item:</strong>
